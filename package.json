@@ -1,0 +1,39 @@
+{
+  "name": "couchnode",
+  "version": "1.0.0",
+  "description": "Sane Couchbase bucket interface for handling common operations the right way.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha -R spec --bail test/index.js",
+    "coverage": "istanbul cover _mocha -- --ui bdd -R spec -t 5000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IndigoUnited/node-couchnode.git"
+  },
+  "keywords": [
+    "couchbase",
+    "bucket",
+    "couchnode",
+    "couch",
+    "key",
+    "value",
+    "keyvalue",
+    "kvs"
+  ],
+  "author": "Marco Oliveira <marcooliveira@me.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/IndigoUnited/node-couchnode/issues"
+  },
+  "homepage": "https://github.com/IndigoUnited/node-couchnode",
+  "dependencies": {
+    "async": "^0.9.0",
+    "couchbase": "^2.0.2"
+  },
+  "devDependencies": {
+    "expect.js": "^0.3.1",
+    "istanbul": "^0.3.2",
+    "mocha": "^1.21.5"
+  }
+}
