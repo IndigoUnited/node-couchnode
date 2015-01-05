@@ -33,4 +33,4 @@ The *rant* should give you a good understanding of the motivation behind this mo
 
 ## API
 
-DOCUMENT `tupple`
+DOCUMENT `tuple`
