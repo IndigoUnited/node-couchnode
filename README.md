@@ -49,7 +49,7 @@ module. Check below some simple usage examples.
 
 ## API
 
-DOCUMENT `tuple`
+
 
 ### Errors
 
@@ -101,5 +101,6 @@ Error codes are available under `bucket.errors.<code>`. List of codes below.
 
 ## TODO
 
+- Document `tuple`
 - Handle multiple errors inside a get, and add a proper "main error" instead of an error count. Check if this should be applied to other operations.
 - Create a better way of signaling a CAS failure. Consider either adding a new error code or attaching a `.casFailure` property to the `Error`.
