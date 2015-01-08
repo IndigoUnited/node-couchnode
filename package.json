@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha -R spec --bail test/index.js",
-    "coverage": "istanbul cover _mocha -- --ui bdd -R spec -t 5000"
+    "coverage": "istanbul cover _mocha -- --ui bdd -R spec -t 5000",
+    "clear-bucket": "couchbase-cli bucket-flush -u Administrator -p password -c 127.0.0.1:8091 -b default --force"
   },
   "repository": {
     "type": "git",

@@ -17,17 +17,21 @@ var appendSuit      = require('./lib/suites/append'),
     upsertSuit      = require('./lib/suites/upsert')
 ;
 
-describe('append', appendSuit);
-describe('counter', counterSuit);
-describe('get', getSuit);
-describe('getAndLock', getAndLockSuit);
-describe('getAndTouch', getAndTouchSuit);
-describe('getReplica', getReplicaSuit);
-describe('insert', insertSuit);
-describe('prepend', prependSuit);
-describe('query', querySuit);
-describe('remove', removeSuit);
-describe('replace', replaceSuit);
-describe('touch', touchSuit);
-describe('unlock', unlockSuit);
-describe('upsert', upsertSuit);
+var fixtures = require('./lib/fixtures');
+
+beforeEach(fixtures.apply);
+
+describe('append',       appendSuit);
+describe('counter',      counterSuit);
+describe('get',          getSuit);
+describe('getAndLock',   getAndLockSuit);
+describe('getAndTouch',  getAndTouchSuit);
+describe('getReplica',   getReplicaSuit);
+describe('insert',       insertSuit);
+describe('prepend',      prependSuit);
+describe('query',        querySuit);
+describe('remove',       removeSuit);
+describe('replace',      replaceSuit);
+describe('touch',        touchSuit);
+describe('unlock',       unlockSuit);
+describe('upsert',       upsertSuit);
