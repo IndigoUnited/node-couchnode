@@ -2,6 +2,8 @@
 
 Sane Couchbase bucket interface for handling common operations the right way.
 
+![Build status](https://travis-ci.org/IndigoUnited/node-couchnode.svg)
+
 ## Rant
 
 Couchbase's official bucket interface contains a bunch of questionable design
