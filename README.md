@@ -2,7 +2,7 @@
 
 Sane Couchbase bucket interface for handling common operations the right way.
 
-![Build status](https://travis-ci.org/IndigoUnited/node-couchnode.svg)
+[![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode)
 
 ## Rant
 
