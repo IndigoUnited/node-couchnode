@@ -17,7 +17,7 @@ module.exports  = function () {
             bucket.get('a', function (err, res) {
                 throwError(err);
 
-                expect(res.value).to.be(keys.a + fragment);
+                expect(res.a.value).to.be(keys.a + fragment);
 
                 return done();
             });

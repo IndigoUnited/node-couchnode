@@ -26,7 +26,7 @@ describe('counter',      counterSuit);
 describe('get',          getSuit);
 describe('getAndLock',   getAndLockSuit);
 describe('getAndTouch',  getAndTouchSuit);
-describe('getReplica',   getReplicaSuit);
+describe.skip('getReplica',   getReplicaSuit);
 describe('insert',       insertSuit);
 describe('prepend',      prependSuit);
 describe('query',        querySuit);

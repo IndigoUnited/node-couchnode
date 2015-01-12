@@ -15,7 +15,7 @@ module.exports  = function () {
             bucket.get('counter', function (err, res) {
                 throwError(err);
 
-                expect(res.value).to.be(keys.counter + 5);
+                expect(res.counter.value).to.be(keys.counter + 5);
 
                 return done();
             });
