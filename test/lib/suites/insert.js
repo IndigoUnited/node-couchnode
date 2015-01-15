@@ -9,12 +9,17 @@ var keys       = require('../fixtures').keys;
 
 module.exports  = function () {
     it('should insert a single key', function (done) {
-        bucket.get('a', function (err, res) {
+        var tmp = { somekey: 'foo' };
+        bucket.insert(tmp, { expiry: 1 }, function (err) {
             throwError(err);
 
-            expect(res.a.value).to.be(keys.a);
+            bucket.get('somekey', function (err, res) {
+                throwError(err);
 
-            return done();
+                expect(res.somekey.value).to.be(tmp.somekey);
+
+                return done();
+            });
         });
     });
 

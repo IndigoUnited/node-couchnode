@@ -103,4 +103,5 @@ Error codes are available under `bucket.errors.<code>`. List of codes below.
 
 - Document `tuple`
 - Handle multiple errors inside a get, and add a proper "main error" instead of an error count. Check if this should be applied to other operations.
+- Properly test each of the common error scenarios in each operation type. An insert will fail if key already exists, replace fails if the key doesn't exist, and so on for each operation type.
 - Create a better way of signaling a CAS failure. Consider either adding a new error code or attaching a `.casFailure` property to the `Error`.
