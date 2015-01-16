@@ -2,7 +2,7 @@
 
 Sane Couchbase bucket interface for handling common operations the right way.
 
-[![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode)
+[![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode) <- only failing because I haven't got around to actually install Couchbase on Travis. But tests are actually passing.
 
 ## Rant
 
@@ -14,7 +14,7 @@ examples:
 be there. Unfortunately, the official client handles this as a failure, and
 returns an `Error` in the callback, meaning you have to constantly to check if
 the error code is not `couchbase.errors.keyNotFound`. JavaScript has an
-`undefined` type, which could be leverage for these scenarios.
+`undefined` type, which could be leveraged for these scenarios.
 
 - In a `getMulti` scenario, the `keyNotFound` issue is even more troublesome,
 in which instead of an `Error`, they return a `Number` stating the amount
