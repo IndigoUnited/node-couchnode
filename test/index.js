@@ -29,7 +29,7 @@ describe('getAndTouch',  getAndTouchSuit);
 describe.skip('getReplica',   getReplicaSuit);
 describe('insert',       insertSuit);
 describe('prepend',      prependSuit);
-describe('query',        querySuit);
+describe.skip('query',        querySuit);
 describe('remove',       removeSuit);
 describe('replace',      replaceSuit);
 describe('touch',        touchSuit);

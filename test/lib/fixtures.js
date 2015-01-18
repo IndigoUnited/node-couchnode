@@ -31,7 +31,16 @@ var keys = {
     x: 'xxx',
     y: 'yyy',
     z: 'zzz',
-    counter: 10
+    counter0: 0,
+    counter1: 1,
+    counter2: 2,
+    counter3: 3,
+    counter4: 4,
+    counter5: 5,
+    counter6: 6,
+    counter7: 7,
+    counter8: 8,
+    counter9: 9
 };
 
 var removeKeys = [
