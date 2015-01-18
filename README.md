@@ -4,6 +4,9 @@ Sane Couchbase bucket interface for handling common operations the right way.
 
 [![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode) <- only failing because I haven't got around to actually install Couchbase on Travis. But tests are actually passing.
 
+This module serves as a wrapper for the official bucket interface. Documentation
+can be found [here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.3/Bucket.html).
+
 ## Rant
 
 Couchbase's official bucket interface contains a bunch of questionable design
@@ -38,6 +41,11 @@ specify no CAS or wrong CAS during a lock in an upsert, you get a
 `keyAlreadyExists`, but if you try to `unlock` a key with the wrong CAS, you get
 a `temporaryError`.
 
+- `append`ing / `prepend`ing to an inexistent key will generate an `Error` with
+code `18`, which isn't even properly documented, but with some exploring you
+discover that it is `LIBCOUCHBASE_NOT_SUPPORTED`, even though there is already
+a `keyNotFound` error code.
+
 ## Introduction
 
 The *rant* should give you a good understanding of the motivation behind this
@@ -68,6 +76,7 @@ Error codes are available under `bucket.errors.<code>`. List of codes below.
 - `cLibGenericError`       : 10,
 - `temporaryError`         : 11,
 - `keyAlreadyExists`       : 12,
+- `keyNotFound`            : 13,
 - `keyNotFound`            : 13,
 - `failedToOpenLibrary`    : 14,
 - `failedToFindSymbol`     : 15,
