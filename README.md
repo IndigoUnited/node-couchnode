@@ -51,7 +51,7 @@ a `keyNotFound` error code.
 The *rant* should give you a good understanding of the motivation behind this
 module. Check below some simple usage examples.
 
-```
+```js
 var couchbase = require('couchbase');
 var couchnode = require('couchnode');
 var cluster   = new couchbase.Cluster('127.0.0.1:8091');
@@ -70,8 +70,8 @@ bucket.get(['a', 'b', 'c'], function (err, res, misses) {
 
 ## API
 
-*Coming soon. Meanwhile, the tests under `test/suites`* should give you a pretty
-good hint on the API.
+*Coming soon. Meanwhile, the tests under `test/suites` should give you a pretty
+good hint on the API.*
 
 ### Errors
 
@@ -90,7 +90,6 @@ Error codes are available under `bucket.errors.<code>`. List of codes below.
 - `cLibGenericError`       : 10,
 - `temporaryError`         : 11,
 - `keyAlreadyExists`       : 12,
-- `keyNotFound`            : 13,
 - `keyNotFound`            : 13,
 - `failedToOpenLibrary`    : 14,
 - `failedToFindSymbol`     : 15,
