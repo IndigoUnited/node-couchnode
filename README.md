@@ -52,12 +52,26 @@ The *rant* should give you a good understanding of the motivation behind this
 module. Check below some simple usage examples.
 
 ```
+var couchbase = require('couchbase');
+var couchnode = require('couchnode');
+var cluster   = new couchbase.Cluster('127.0.0.1:8091');
+var bucket    = couchnode.wrap(cluster.openBucket('default'));
 
+bucket.get(['a', 'b', 'c'], function (err, res, misses) {
+    if (misses.length > 1) {
+        console.log('One of the keys does not exist');
+    } else {
+        console.log(res.a.value, res.a.cas);
+        console.log(res.b.value, res.b.cas);
+        console.log(res.c.value, res.c.cas);
+    }
+});
 ```
 
 ## API
 
-
+*Coming soon. Meanwhile, the tests under `test/suites`* should give you a pretty
+good hint on the API.
 
 ### Errors
 
