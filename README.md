@@ -7,6 +7,15 @@ Sane Couchbase bucket interface for handling common operations the right way.
 This module serves as a wrapper for the official bucket interface. Documentation
 can be found [here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.3/Bucket.html).
 
+### Coverage summary
+
+```
+Statements   : 90.29% ( 158/175 )
+Branches     : 73.87% ( 82/111 )
+Functions    : 89.47% ( 34/38 )
+Lines        : 90.29% ( 158/175 )
+```
+
 ## Rant
 
 Couchbase's official bucket interface contains a bunch of questionable design
@@ -51,7 +60,7 @@ a `keyNotFound` error code.
 The *rant* should give you a good understanding of the motivation behind this
 module. Check below some simple usage examples.
 
-```js
+```
 var couchbase = require('couchbase');
 var couchnode = require('couchnode');
 var cluster   = new couchbase.Cluster('127.0.0.1:8091');
@@ -72,6 +81,20 @@ bucket.get(['a', 'b', 'c'], function (err, res, misses) {
 
 *Coming soon. Meanwhile, the tests under `test/suites` should give you a pretty
 good hint on the API.*
+
+### Error handling
+
+Since all operations support *multi operation*, all operations will return an `Error` with `EMULTI` code as first parameter, in case any of the operations fails. This `Error` contains an `.errors` property, which is an object with keys and respective original `Error`.
+
+### Key 
+
+All `keyNotFound` scenarios are handled the same way, and there is no `Error` generated. Instead, the key is returned 
+
+### Tuples
+
+### Per key options
+
+
 
 ### Errors
 
