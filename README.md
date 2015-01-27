@@ -7,6 +7,8 @@ Sane Couchbase bucket interface for handling common operations the right way.
 This module serves as a wrapper for the official bucket interface. Documentation
 can be found [here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.3/Bucket.html).
 
+Considering this module wraps the official Couchbase interface, it is compatible with the same server versions as the official module.
+
 ### Coverage summary
 
 ```
@@ -101,15 +103,15 @@ bucket.get(['a', 'b', 'c'], function (err, res, misses) {
 - [`upsert`](#upsert)
 
 
-<a name="bucket" />
+<a name="bucket"></a>
 ### bucket
 
-There is a `.bucket` property on the `couched` bucket, which will refer to the underlying official `bucket`.
+There is a `.bucket` property on the `couchnode` bucket, which will refer to the underlying official `bucket`.
 
-<a name="append" />
-### append(keys, fragment, options, callback)
+<a name="append"></a>
+### append(keys, fragment, [options,] callback)
 
-- `keys`: array
+- `keys`: array or string
 - `fragment`: string
 - `options`: object
     - `cas`
@@ -119,10 +121,10 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
-<a name="counter" />
-### counter(keys, delta, options, callback)
+<a name="counter"></a>
+### counter(keys, delta, [options,] callback)
 
-- `keys`: array
+- `keys`: array or string
 - `delta`: non-zero integer
 - `options`: object
     - `initial`
@@ -133,46 +135,46 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
-<a name="get" />
+<a name="get"></a>
 ### get(keys, callback)
 
-- `keys`: array
+- `keys`: array or string
 - `callback(err, res, misses)`
     - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
     - `misses`: array of keys that don't exist.
 
-<a name="getAndLock" />
-### getAndLock(keys, options, callback)
+<a name="getAndLock"></a>
+### getAndLock(keys, [options,] callback)
 
-- `keys`: array
+- `keys`: array or string
 - `options`: object
     - `lockTime`
 - `callback(err, res, misses)`
     - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
     - `misses`: array of keys that don't exist.
 
-<a name="getAndTouch" />
-### getAndTouch(keys, expiry, options, callback)
+<a name="getAndTouch"></a>
+### getAndTouch(keys, expiry, [options,] callback)
 
-- `keys`: array
+- `keys`: array or string
 - `expiry`: number
 - `options`: object. No options at this time, just keeping consistent with official module, but might deprecate this.
 - `callback(err, res, misses)`
     - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
     - `misses`: array of keys that don't exist.
 
-<a name="getReplica" />
-### getReplica(keys, options, callback)
+<a name="getReplica"></a>
+### getReplica(keys, [options,] callback)
 
-- `keys`: array
+- `keys`: array or string
 - `options`: object
     - `index`
 - `callback(err, res, misses)`
     - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
     - `misses`: array of keys that don't exist.
 
-<a name="insert" />
-### insert(tuples, options, callback)
+<a name="insert"></a>
+### insert(tuples, [options,] callback)
 
 - `tuples`: tuple (object with keys and respective values)
 - `options`: object
@@ -183,10 +185,10 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
-<a name="prepend" />
-### prepend(keys, fragment, options, callback)
+<a name="prepend"></a>
+### prepend(keys, fragment, [options,] callback)
 
-- `keys`: array
+- `keys`: array or string
 - `fragment`: string
 - `options`: object
     - `cas`
@@ -196,17 +198,17 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
-<a name="query" />
+<a name="query"></a>
 ### query(query, params, callback)
 
 - `query`: `ViewQuery` or `N1qlQuery`
 - `params`: Object or Array, list or map to do replacements on a N1QL query.
 - `callback(err, res)`
 
-<a name="remove" />
-### remove(keys, options, callback)
+<a name="remove"></a>
+### remove(keys, [options,] callback)
 
-- `keys`: array
+- `keys`: array or string
 - `options`: object
     - `cas`
     - `persist_to`
@@ -215,8 +217,8 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that didn't exist.
 
-<a name="replace" />
-### replace(tuples, options, callback)
+<a name="replace"></a>
+### replace(tuples, [options,] callback)
 
 - `tuples`: tuple (object with keys and respective values)
 - `options`: object
@@ -228,10 +230,10 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
-<a name="touch" />
-### touch(keys, expiry, options, callback)
+<a name="touch"></a>
+### touch(keys, expiry, [options,] callback)
 
-- `keys`: array
+- `keys`: array or string
 - `expiry`: integer
 - `options`: object
     - `persist_to`
@@ -240,17 +242,17 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that didn't exist.
 
-<a name="unlock" />
+<a name="unlock"></a>
 ### unlock(keys, cas, callback)
 
-- `keys`: array
+- `keys`: array or string
 - `cas`: integer or key indexed object with keys as respective CAS tokens.
 - `callback(err, res, misses)`
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that didn't exist.
 
-<a name="upsert" />
-### upsert(tuples, options, callback)
+<a name="upsert"></a>
+### upsert(tuples, [options,] callback)
 
 - `tuples`: tuple (object with keys and respective values)
 - `options`: object
