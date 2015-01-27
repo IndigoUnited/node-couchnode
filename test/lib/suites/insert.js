@@ -10,7 +10,7 @@ var keys       = require('../fixtures').keys;
 module.exports  = function () {
     it('should insert a single key', function (done) {
         var tmp = { somekey: 'foo' };
-        bucket.insert(tmp, { expiry: 1 }, function (err) {
+        bucket.insert(tmp, { expiry: 5 }, function (err) {
             throwError(err);
 
             bucket.get('somekey', function (err, res) {
@@ -24,39 +24,50 @@ module.exports  = function () {
     });
 
     it('should insert multiple keys', function (done) {
-        bucket.get(['a', 'b', 'c'], function (err, res) {
+        var tmp = {
+            'to-remove-0': 'foo-0',
+            'to-remove-1': 'foo-1',
+            'to-remove-2': 'foo-2'
+        };
+
+        bucket.insert(tmp, { expiry: 5 }, function (err) {
             throwError(err);
 
-            expect(res.a.value).to.be(keys.a);
-            expect(res.b.value).to.be(keys.b);
-            expect(res.c.value).to.be(keys.c);
+            bucket.get(['to-remove-0', 'to-remove-1', 'to-remove-2'], function (err, res) {
+                throwError(err);
 
-            return done();
+                expect(res['to-remove-0'].value).to.be(tmp['to-remove-0']);
+                expect(res['to-remove-1'].value).to.be(tmp['to-remove-1']);
+                expect(res['to-remove-2'].value).to.be(tmp['to-remove-2']);
+
+                return done();
+            });
         });
     });
 
-    it('should return undefined when getting a single non-existing key', function (done) {
-        bucket.get('non-existing-key', function (err, res) {
-            throwError(err);
+    it('should only fail the already existing keys, everything else succeeds', function (done) {
+        var tmp = {
+            a:             'foo-a',
+            'to-remove-0': 'foo-0',
+            'to-remove-1': 'foo-1',
+            'to-remove-2': 'foo-2'
+        };
 
-            expect(res['non-existing-key']).to.be(undefined);
+        bucket.insert(tmp, { expiry: 5 }, function (err) {
+            expect(err).to.be.ok();
+            expect(err.errors.a).to.be.ok();
+            expect(err.errors.a.code).to.be(bucket.errors.keyAlreadyExists);
 
-            return done();
-        });
-    });
+            bucket.get(['a', 'to-remove-0', 'to-remove-1', 'to-remove-2'], function (err, res) {
+                throwError(err);
 
-    it('should return undefined when getting multiple non-existing keys', function (done) {
-        bucket.get(['non-existing-key-1', 'non-existing-key-2', 'non-existing-key-3', 'a', 'b', 'c'], function (err, res) {
-            throwError(err);
+                expect(res.a.value).to.be(keys.a);
+                expect(res['to-remove-0'].value).to.be(tmp['to-remove-0']);
+                expect(res['to-remove-1'].value).to.be(tmp['to-remove-1']);
+                expect(res['to-remove-2'].value).to.be(tmp['to-remove-2']);
 
-            expect(res['non-existing-key-1']).to.be(undefined);
-            expect(res['non-existing-key-2']).to.be(undefined);
-            expect(res['non-existing-key-3']).to.be(undefined);
-            expect(res.a.value).to.be(keys.a);
-            expect(res.b.value).to.be(keys.b);
-            expect(res.c.value).to.be(keys.c);
-
-            return done();
+                return done();
+            });
         });
     });
 };

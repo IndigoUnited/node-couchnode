@@ -46,6 +46,16 @@ var keys = {
 var removeKeys = [
     'non-existing-key',
     'some_key',
+    'to-remove-0',
+    'to-remove-1',
+    'to-remove-2',
+    'to-remove-3',
+    'to-remove-4',
+    'to-remove-5',
+    'to-remove-6',
+    'to-remove-7',
+    'to-remove-8',
+    'to-remove-9',
     'non-existing-key-1',
     'non-existing-key-2',
     'non-existing-key-3'

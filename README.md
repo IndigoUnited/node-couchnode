@@ -2,7 +2,7 @@
 
 Sane Couchbase bucket interface for handling common operations the right way.
 
-[![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode) <- only failing because I haven't got around to actually install Couchbase on Travis. But tests are actually passing.
+[![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode)
 
 This module serves as a wrapper for the official bucket interface. Documentation
 can be found [here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.3/Bucket.html).
@@ -62,8 +62,9 @@ module. Check below some simple usage examples.
 
 ```
 var couchbase = require('couchbase');
-var couchnode = require('couchnode');
 var cluster   = new couchbase.Cluster('127.0.0.1:8091');
+
+var couchnode = require('couchnode');
 var bucket    = couchnode.wrap(cluster.openBucket('default'));
 
 bucket.get(['a', 'b', 'c'], function (err, res, misses) {
@@ -79,22 +80,240 @@ bucket.get(['a', 'b', 'c'], function (err, res, misses) {
 
 ## API
 
-*Coming soon. Meanwhile, the tests under `test/suites` should give you a pretty
-good hint on the API.*
+### bucket
+
+There is a `.bucket` property on the `couched` bucket, which will refer to the underlying official `bucket`.
+
+### append(keys, fragment, options, callback)
+
+- `keys`: array
+- `fragment`: string
+- `options`: object
+    - `cas`
+    - `persist_to`
+    - `replicate_to`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.cas` property.
+    - `misses`: array of keys that don't exist.
+
+### counter(keys, delta, options, callback)
+
+- `keys`: array
+- `delta`: non-zero integer
+- `options`: object
+    - `initial`
+    - `expiry`
+    - `persist_to`
+    - `replicate_to`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.cas` property.
+    - `misses`: array of keys that don't exist.
+
+### get(keys, callback)
+
+- `keys`: array
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
+    - `misses`: array of keys that don't exist.
+
+### getAndLock(keys, options, callback)
+
+- `keys`: array
+- `options`: object
+    - `lockTime`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
+    - `misses`: array of keys that don't exist.
+
+### getAndTouch(keys, expiry, options, callback)
+
+- `keys`: array
+- `expiry`: number
+- `options`: object. No options at this time, just keeping consistent with official module, but might deprecate this.
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
+    - `misses`: array of keys that don't exist.
+
+### getReplica(keys, options, callback)
+
+- `keys`: array
+- `options`: object
+    - `index`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
+    - `misses`: array of keys that don't exist.
+
+### insert(tuples, options, callback)
+
+- `tuples`: tuple (object with keys and respective values)
+- `options`: object
+    - `expiry`
+    - `persist_to`
+    - `replicate_to`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.cas` property.
+    - `misses`: array of keys that don't exist.
+
+### prepend(keys, fragment, options, callback)
+
+- `keys`: array
+- `fragment`: string
+- `options`: object
+    - `cas`
+    - `persist_to`
+    - `replicate_to`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.cas` property.
+    - `misses`: array of keys that don't exist.
+
+### query(query, params, callback)
+
+- `query`: `ViewQuery` or `N1qlQuery`
+- `params`: Object or Array, list or map to do replacements on a N1QL query.
+- `callback(err, res)`
+
+### remove(keys, options, callback)
+
+- `keys`: array
+- `options`: object
+    - `cas`
+    - `persist_to`
+    - `replicate_to`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.cas` property.
+    - `misses`: array of keys that didn't exist.
+
+### replace(tuples, options, callback)
+
+- `tuples`: tuple (object with keys and respective values)
+- `options`: object
+    - `cas`
+    - `expiry`
+    - `persist_to`
+    - `replicate_to`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.cas` property.
+    - `misses`: array of keys that don't exist.
+
+### touch(keys, expiry, options, callback)
+
+- `keys`: array
+- `expiry`: integer
+- `options`: object
+    - `persist_to`
+    - `replicate_to`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.cas` property.
+    - `misses`: array of keys that didn't exist.
+
+### unlock(keys, cas, callback)
+
+- `keys`: array
+- `cas`: integer or key indexed object with keys as respective CAS tokens.
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.cas` property.
+    - `misses`: array of keys that didn't exist.
+
+### upsert(tuples, options, callback)
+
+- `tuples`: tuple (object with keys and respective values)
+- `options`: object
+    - `cas`
+    - `expiry`
+    - `persist_to`
+    - `replicate_to`
+- `callback(err, res, misses)`
+    - `res`: key indexed results. Each result will contain a `.cas` property.
+    - `misses`: array of keys that don't exist.
 
 ### Error handling
 
 Since all operations support *multi operation*, all operations will return an `Error` with `EMULTI` code as first parameter, in case any of the operations fails. This `Error` contains an `.errors` property, which is an object with keys and respective original `Error`.
 
-### Key 
+### Key Not Found
 
-All `keyNotFound` scenarios are handled the same way, and there is no `Error` generated. Instead, the key is returned 
+All `keyNotFound` scenarios are handled the same way, and there is no `Error` generated. Instead, all operations will provide a `misses` array in the callback, and the `results` object won't contain the missing key.
 
 ### Tuples
 
+A tuple is an object with key and respective values, like so:
+
+```
+{
+    a: 1,
+    b: 2,
+    c: 3
+}
+```
+
+Many `couchnode` operations allow you to provide tuples for *multi operations*. As an example, you could provide the tuple above to `insert`, and the keys `a`, `b` and `c` would be inserted with the respective values.
+
+As syntax sugar, and to avoid creating temporary objects like this:
+
+```
+// ...
+
+var someKey   = 'foo';
+var someValue = 'bar';
+var tmp       = {};
+tmp[someKey]  = someValue;
+bucket.insert(tmp, function (err, res) {
+    // ...
+});
+
+// ...
+```
+
+You can instead do the following:
+
+```
+// ...
+
+var someKey   = 'foo';
+var someValue = 'bar';
+
+var tuple = require('couchnode').tuple;
+
+bucket.insert(tuple(someKey, someValue), function (err, res) {
+    // ...
+});
+
+//...
+```
+
+You can provide to the `tuple` helper just a key and a value, or you can provide a couple of arrays of equal length, and `tuple` will map each of they keys to the respective values, like so:
+
+```
+tuple(['a', 'b', 'c'], [1, 2, 3]);
+
+// will return
+//
+// {
+//   a: 1,
+//   b: 2,
+//   c: 3
+// }
+```
+
 ### Per key options
 
+Any time you need to provide key specific options, like `case` or `index` (for `getReplica`), you can provide it as a key indexed object. Check the example below:
 
+```
+bucket.update({
+    foo: 1,
+    bar: 2,
+}, {
+    cas: {
+        foo: /* CAS TOKEN GOES HERE */,
+        bar: /* CAS TOKEN GOES HERE */
+    }
+}, function (err, res, misses) {
+    // ...
+});
+```
+
+You do not have to specify options to all keys, `couchnode` will only apply the options to the keys you specify.
 
 ### Errors
 
@@ -146,7 +365,5 @@ Error codes are available under `bucket.errors.<code>`. List of codes below.
 
 ## TODO
 
-- Document `tuple`
-- Handle multiple errors inside a get, and add a proper "main error" instead of an error count. Check if this should be applied to other operations.
 - Properly test each of the common error scenarios in each operation type. An insert will fail if key already exists, replace fails if the key doesn't exist, and so on for each operation type.
 - Create a better way of signaling a CAS failure. Consider either adding a new error code or attaching a `.casFailure` property to the `Error`.
