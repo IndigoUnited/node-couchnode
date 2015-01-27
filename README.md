@@ -55,6 +55,10 @@ code `18`, which isn't even properly documented, but with some exploring you
 discover that it is `LIBCOUCHBASE_NOT_SUPPORTED`, even though there is already
 a `keyNotFound` error code.
 
+## Installing
+
+`npm install couchnode`
+
 ## Introduction
 
 The *rant* should give you a good understanding of the motivation behind this
