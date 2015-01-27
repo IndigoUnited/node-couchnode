@@ -60,7 +60,7 @@ a `keyNotFound` error code.
 The *rant* should give you a good understanding of the motivation behind this
 module. Check below some simple usage examples.
 
-```
+```js
 var couchbase = require('couchbase');
 var cluster   = new couchbase.Cluster('127.0.0.1:8091');
 
@@ -238,7 +238,7 @@ All `keyNotFound` scenarios are handled the same way, and there is no `Error` ge
 
 A tuple is an object with key and respective values, like so:
 
-```
+```js
 {
     a: 1,
     b: 2,
@@ -250,7 +250,7 @@ Many `couchnode` operations allow you to provide tuples for *multi operations*. 
 
 As syntax sugar, and to avoid creating temporary objects like this:
 
-```
+```js
 // ...
 
 var someKey   = 'foo';
@@ -266,7 +266,7 @@ bucket.insert(tmp, function (err, res) {
 
 You can instead do the following:
 
-```
+```js
 // ...
 
 var someKey   = 'foo';
@@ -283,7 +283,7 @@ bucket.insert(tuple(someKey, someValue), function (err, res) {
 
 You can provide to the `tuple` helper just a key and a value, or you can provide a couple of arrays of equal length, and `tuple` will map each of they keys to the respective values, like so:
 
-```
+```js
 tuple(['a', 'b', 'c'], [1, 2, 3]);
 
 // will return
@@ -299,7 +299,7 @@ tuple(['a', 'b', 'c'], [1, 2, 3]);
 
 Any time you need to provide key specific options, like `case` or `index` (for `getReplica`), you can provide it as a key indexed object. Check the example below:
 
-```
+```js
 bucket.update({
     foo: 1,
     bar: 2,
