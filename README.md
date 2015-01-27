@@ -80,10 +80,29 @@ bucket.get(['a', 'b', 'c'], function (err, res, misses) {
 
 ## API
 
+- [`bucket`](#bucket)
+- [`append`](#append)
+- [`counter`](#counter)
+- [`get`](#get)
+- [`getAndLock`](#getAndLock)
+- [`getAndTouch`](#getAndTouch)
+- [`getReplica`](#getReplica)
+- [`insert`](#insert)
+- [`prepend`](#prepend)
+- [`query`](#query)
+- [`remove`](#remove)
+- [`replace`](#replace)
+- [`touch`](#touch)
+- [`unlock`](#unlock)
+- [`upsert`](#upsert)
+
+
+<a name="bucket" />
 ### bucket
 
 There is a `.bucket` property on the `couched` bucket, which will refer to the underlying official `bucket`.
 
+<a name="append" />
 ### append(keys, fragment, options, callback)
 
 - `keys`: array
@@ -96,6 +115,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
+<a name="counter" />
 ### counter(keys, delta, options, callback)
 
 - `keys`: array
@@ -109,6 +129,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
+<a name="get" />
 ### get(keys, callback)
 
 - `keys`: array
@@ -116,6 +137,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
     - `misses`: array of keys that don't exist.
 
+<a name="getAndLock" />
 ### getAndLock(keys, options, callback)
 
 - `keys`: array
@@ -125,6 +147,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
     - `misses`: array of keys that don't exist.
 
+<a name="getAndTouch" />
 ### getAndTouch(keys, expiry, options, callback)
 
 - `keys`: array
@@ -134,6 +157,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
     - `misses`: array of keys that don't exist.
 
+<a name="getReplica" />
 ### getReplica(keys, options, callback)
 
 - `keys`: array
@@ -143,6 +167,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
     - `misses`: array of keys that don't exist.
 
+<a name="insert" />
 ### insert(tuples, options, callback)
 
 - `tuples`: tuple (object with keys and respective values)
@@ -154,6 +179,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
+<a name="prepend" />
 ### prepend(keys, fragment, options, callback)
 
 - `keys`: array
@@ -166,12 +192,14 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
+<a name="query" />
 ### query(query, params, callback)
 
 - `query`: `ViewQuery` or `N1qlQuery`
 - `params`: Object or Array, list or map to do replacements on a N1QL query.
 - `callback(err, res)`
 
+<a name="remove" />
 ### remove(keys, options, callback)
 
 - `keys`: array
@@ -183,6 +211,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that didn't exist.
 
+<a name="replace" />
 ### replace(tuples, options, callback)
 
 - `tuples`: tuple (object with keys and respective values)
@@ -195,6 +224,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that don't exist.
 
+<a name="touch" />
 ### touch(keys, expiry, options, callback)
 
 - `keys`: array
@@ -206,6 +236,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that didn't exist.
 
+<a name="unlock" />
 ### unlock(keys, cas, callback)
 
 - `keys`: array
@@ -214,6 +245,7 @@ There is a `.bucket` property on the `couched` bucket, which will refer to the u
     - `res`: key indexed results. Each result will contain a `.cas` property.
     - `misses`: array of keys that didn't exist.
 
+<a name="upsert" />
 ### upsert(tuples, options, callback)
 
 - `tuples`: tuple (object with keys and respective values)
