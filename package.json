@@ -1,6 +1,6 @@
 {
   "name": "couchnode",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Sane Couchbase bucket interface for handling common operations the right way.",
   "main": "index.js",
   "scripts": {

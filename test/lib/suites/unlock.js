@@ -15,10 +15,11 @@ module.exports  = function () {
             expect(misses.length).to.be(0);
             expect(res.a.value).to.be(keys.a);
 
-            bucket.unlock('a', res.a.cas, function (err, misses) {
+            bucket.unlock('a', res.a.cas, function (err, res, misses) {
                 throwError(err);
 
                 expect(misses.length).to.be(0);
+                expect(res.a).to.be.ok();
 
                 bucket.get('a', function (err, res, misses) {
                     throwError(err);
@@ -46,10 +47,13 @@ module.exports  = function () {
                 a: res.a.cas,
                 b: res.b.cas,
                 c: res.c.cas
-            }, function (err, misses) {
+            }, function (err, res, misses) {
                 throwError(err);
 
                 expect(misses.length).to.be(0);
+                expect(res.a).to.be.ok();
+                expect(res.b).to.be.ok();
+                expect(res.c).to.be.ok();
 
                 bucket.get(['a', 'b', 'c'], function (err, res, misses) {
                     throwError(err);
@@ -72,7 +76,7 @@ module.exports  = function () {
             expect(misses.length).to.be(0);
             expect(res.a.value).to.be(keys.a);
 
-            bucket.unlock('non-existing-key', res.a.cas, function (err, misses) { // using just a syntax valid CAS
+            bucket.unlock('non-existing-key', res.a.cas, function (err, res, misses) { // using just a syntax valid CAS
                 throwError(err);
 
                 expect(res['non-existing-key']).to.be(undefined);
@@ -97,7 +101,7 @@ module.exports  = function () {
                 'non-existing-key-1': res.a.cas, // using just a syntax valid CAS
                 'non-existing-key-2': res.a.cas, // using just a syntax valid CAS
                 'non-existing-key-3': res.a.cas, // using just a syntax valid CAS
-            }, function (err, misses) {
+            }, function (err, res, misses) {
                 throwError(err);
 
                 expect(res['non-existing-key-1']).to.be(undefined);
@@ -106,9 +110,9 @@ module.exports  = function () {
                 expect(misses).to.contain('non-existing-key-1');
                 expect(misses).to.contain('non-existing-key-2');
                 expect(misses).to.contain('non-existing-key-3');
-                expect(res.a.value).to.be(keys.a);
-                expect(res.b.value).to.be(keys.b);
-                expect(res.c.value).to.be(keys.c);
+                expect(res.a).to.be.ok();
+                expect(res.b).to.be.ok();
+                expect(res.c).to.be.ok();
 
                 done();
             });

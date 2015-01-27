@@ -10,10 +10,10 @@ can be found [here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.
 ### Coverage summary
 
 ```
-Statements   : 90.29% ( 158/175 )
-Branches     : 73.87% ( 82/111 )
-Functions    : 89.47% ( 34/38 )
-Lines        : 90.29% ( 158/175 )
+Statements   : 89.77% ( 158/176 )
+Branches     : 73.45% ( 83/113 )
+Functions    : 89.74% ( 35/39 )
+Lines        : 89.77% ( 158/176 )
 ```
 
 ## Rant
