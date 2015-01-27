@@ -1,3 +1,14 @@
- language: node_js
- node_js:
-   - "0.10"
+language: node_js
+
+before_install:
+  - sudo rm -rf /etc/apt/sources.list.d/*
+  - wget -O- http://packages.couchbase.com/ubuntu/couchbase.key | sudo apt-key add -
+  - echo deb http://packages.couchbase.com/ubuntu precise precise/main | sudo tee /etc/apt/sources.list.d/couchbase.list
+  - sudo apt-get update
+  - sudo apt-cache search libcouchbase
+  - sudo apt-get -y install libcouchbase-dev libcouchbase2-core libcouchbase2-libevent libevent-dev
+  - mkdir t/tmp
+  - wget -O t/tmp/CouchbaseMock.jar http://files.couchbase.com/maven2/org/couchbase/mock/CouchbaseMock/0.8-SNAPSHOT/CouchbaseMock-0.8-20140621.030439-1.jar
+
+node_js:
+  - "0.10"
