@@ -53,10 +53,14 @@ module.exports  = function () {
             'to-remove-2': 'foo-2'
         };
 
-        bucket.insert(tmp, { expiry: 5 }, function (err) {
-            expect(err).to.be.ok();
-            expect(err.errors.a).to.be.ok();
-            expect(err.errors.a.code).to.be(bucket.errors.keyAlreadyExists);
+        bucket.insert(tmp, { expiry: 5 }, function (err, res, existing) {
+            throwError(err);
+
+            expect(res['to-remove-0']).to.be.ok();
+            expect(res['to-remove-1']).to.be.ok();
+            expect(res['to-remove-2']).to.be.ok();
+
+            expect(existing).to.contain('a');
 
             bucket.get(['a', 'to-remove-0', 'to-remove-1', 'to-remove-2'], function (err, res) {
                 throwError(err);

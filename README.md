@@ -57,6 +57,8 @@ code `18`, which isn't even properly documented, but with some exploring you
 discover that it is `LIBCOUCHBASE_NOT_SUPPORTED`, even though there is already
 a `keyNotFound` error code.
 
+- When `insert`ing keys, if they already exist, you have to constantly look into the `error.code` and look for `keyAlreadyExists`, which again is cumbersome.
+
 ## Installing
 
 `npm install couchnode`
@@ -74,8 +76,13 @@ var couchnode = require('couchnode');
 var bucket    = couchnode.wrap(cluster.openBucket('default'));
 
 bucket.get(['a', 'b', 'c'], function (err, res, misses) {
+    if (err) {
+        // err.errors will be an object of keys and respective errors
+        return console.error('Something went wrong:', err.errors);
+    }
+    
     if (misses.length > 1) {
-        console.log('One of the keys does not exist');
+        console.log('These key do not exist:', misses);
     } else {
         console.log(res.a.value, res.a.cas);
         console.log(res.b.value, res.b.cas);
@@ -183,7 +190,7 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `replicate_to`
 - `callback(err, res, misses)`
     - `res`: key indexed results. Each result will contain a `.cas` property.
-    - `misses`: array of keys that don't exist.
+    - `existing`: array of keys that already existed, and thus failed to be added.
 
 <a name="prepend"></a>
 ### prepend(keys, fragment, [options,] callback)
@@ -260,9 +267,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `expiry`
     - `persist_to`
     - `replicate_to`
-- `callback(err, res, misses)`
+- `callback(err, res)`
     - `res`: key indexed results. Each result will contain a `.cas` property.
-    - `misses`: array of keys that don't exist.
 
 ### Error handling
 
