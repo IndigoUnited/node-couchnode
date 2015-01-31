@@ -4,8 +4,11 @@ Sane Couchbase bucket interface for handling common operations the right way.
 
 [![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode)
 
-This module serves as a wrapper for the official bucket interface. Documentation
-can be found [here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.3/Bucket.html).
+[![Couchnode - Wrapper for the official Couchbase bucket interface](logo.png)](https://travis-ci.org/IndigoUnited/node-couchnode)
+
+This module is as a wrapper for the official bucket interface. Documentation of
+the official module can be found
+[here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.3/Bucket.html).
 
 Considering this module wraps the official Couchbase interface, it is compatible with the same server versions as the official module.
 
