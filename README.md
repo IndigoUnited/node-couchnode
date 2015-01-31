@@ -12,10 +12,10 @@ Considering this module wraps the official Couchbase interface, it is compatible
 ### Coverage summary
 
 ```
-Statements   : 89.77% ( 158/176 )
-Branches     : 73.45% ( 83/113 )
-Functions    : 89.74% ( 35/39 )
-Lines        : 89.77% ( 158/176 )
+Statements   : 91.1% ( 174/191 )
+Branches     : 75.2% ( 94/125 )
+Functions    : 90% ( 36/40 )
+Lines        : 91.1% ( 174/191 )
 ```
 
 ## Rant
