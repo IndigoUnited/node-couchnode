@@ -124,8 +124,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `cas`
     - `persist_to`
     - `replicate_to`
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.cas` property.
+- `callback(err, cas, misses)`
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
 <a name="counter"></a>
@@ -138,16 +138,17 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `expiry`
     - `persist_to`
     - `replicate_to`
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.cas` property.
+- `callback(err, cas, misses)`
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
 <a name="get"></a>
 ### get(keys, callback)
 
 - `keys`: array or string
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
+- `callback(err, results, cas, misses)`
+    - `results`: object with keys and respective values.
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
 <a name="getAndLock"></a>
@@ -156,8 +157,9 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 - `keys`: array or string
 - `options`: object
     - `lockTime`
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
+- `callback(err, results, cas, misses)`
+    - `results`: object with keys and respective values.
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
 <a name="getAndTouch"></a>
@@ -166,8 +168,9 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 - `keys`: array or string
 - `expiry`: number
 - `options`: object. No options at this time, just keeping consistent with official module, but might deprecate this.
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
+- `callback(err, results, cas, misses)`
+    - `results`: object with keys and respective values.
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
 <a name="getReplica"></a>
@@ -176,8 +179,9 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 - `keys`: array or string
 - `options`: object
     - `index`
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.value` and a `.cas` property.
+- `callback(err, results, cas, misses)`
+    - `results`: object with keys and respective values.
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
 <a name="insert"></a>
@@ -188,8 +192,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `expiry`
     - `persist_to`
     - `replicate_to`
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.cas` property.
+- `callback(err, cas, existing)`
+    - `cas`: object with keys and respective CAS token.
     - `existing`: array of keys that already existed, and thus failed to be added.
 
 <a name="prepend"></a>
@@ -201,8 +205,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `cas`
     - `persist_to`
     - `replicate_to`
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.cas` property.
+- `callback(err, cas, misses)`
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
 <a name="query"></a>
@@ -220,8 +224,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `cas`
     - `persist_to`
     - `replicate_to`
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.cas` property.
+- `callback(err, cas, misses)`
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that didn't exist.
 
 <a name="replace"></a>
@@ -233,8 +237,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `expiry`
     - `persist_to`
     - `replicate_to`
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.cas` property.
+- `callback(err, cas, misses)`
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
 <a name="touch"></a>
@@ -245,8 +249,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 - `options`: object
     - `persist_to`
     - `replicate_to`
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.cas` property.
+- `callback(err, cas, misses)`
+    - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that didn't exist.
 
 <a name="unlock"></a>
@@ -254,8 +258,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 
 - `keys`: array or string
 - `cas`: integer or key indexed object with keys as respective CAS tokens.
-- `callback(err, res, misses)`
-    - `res`: key indexed results. Each result will contain a `.cas` property.
+- `callback(err, results, misses)`
+    - `results`: `true` or `false` if the key was unlocked or not respectively.
     - `misses`: array of keys that didn't exist.
 
 <a name="upsert"></a>
@@ -267,8 +271,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `expiry`
     - `persist_to`
     - `replicate_to`
-- `callback(err, res)`
-    - `res`: key indexed results. Each result will contain a `.cas` property.
+- `callback(err, cas)`
+    - `cas`: object with keys and respective CAS token.
 
 ### Error handling
 
