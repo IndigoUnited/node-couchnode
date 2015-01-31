@@ -75,18 +75,18 @@ var cluster   = new couchbase.Cluster('127.0.0.1:8091');
 var couchnode = require('couchnode');
 var bucket    = couchnode.wrap(cluster.openBucket('default'));
 
-bucket.get(['a', 'b', 'c'], function (err, res, misses) {
+bucket.get(['a', 'b', 'c'], function (err, res, cas, misses) {
     if (err) {
         // err.errors will be an object of keys and respective errors
         return console.error('Something went wrong:', err.errors);
     }
-    
+
     if (misses.length > 1) {
-        console.log('These key do not exist:', misses);
+        console.log('These keys do not exist:', misses);
     } else {
-        console.log(res.a.value, res.a.cas);
-        console.log(res.b.value, res.b.cas);
-        console.log(res.c.value, res.c.cas);
+        console.log(res.a, cas.a);
+        console.log(res.b, cas.b);
+        console.log(res.c, cas.c);
     }
 });
 ```
