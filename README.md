@@ -351,7 +351,7 @@ tuple(['a', 'b', 'c'], [1, 2, 3]);
 Any time you need to provide key specific options, like `case` or `index` (for `getReplica`), you can provide it as a key indexed object. Check the example below:
 
 ```js
-bucket.update({
+bucket.upsert({
     foo: 1,
     bar: 2,
 }, {
