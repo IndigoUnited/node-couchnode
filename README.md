@@ -141,7 +141,8 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
     - `expiry`
     - `persist_to`
     - `replicate_to`
-- `callback(err, cas, misses)`
+- `callback(err, results, cas, misses)`
+    - `results`: object with keys and respective values.
     - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
@@ -198,6 +199,11 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 - `callback(err, cas, existing)`
     - `cas`: object with keys and respective CAS token.
     - `existing`: array of keys that already existed, and thus failed to be added.
+
+<a name="manager"></a>
+### manager()
+
+Returns an instance of a BuckerManager for performing management operations against a bucket.
 
 <a name="prepend"></a>
 ### prepend(keys, fragment, [options,] callback)
