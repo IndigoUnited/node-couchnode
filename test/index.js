@@ -14,12 +14,15 @@ var appendSuit      = require('./lib/suites/append'),
     replaceSuit     = require('./lib/suites/replace'),
     touchSuit       = require('./lib/suites/touch'),
     unlockSuit      = require('./lib/suites/unlock'),
-    upsertSuit      = require('./lib/suites/upsert')
+    upsertSuit      = require('./lib/suites/upsert'),
+    managerSuit     = require('./lib/suites/manager')
 ;
 
 var fixtures = require('./lib/fixtures');
 
 beforeEach(fixtures.apply);
+
+// after(fixtures.cleanUp);
 
 describe('append',       appendSuit);
 describe('counter',      counterSuit);
@@ -28,8 +31,9 @@ describe('getAndLock',   getAndLockSuit);
 describe('getAndTouch',  getAndTouchSuit);
 describe.skip('getReplica',   getReplicaSuit);
 describe('insert',       insertSuit);
+describe('manager', managerSuit);
 describe('prepend',      prependSuit);
-describe.skip('query',        querySuit);
+describe('query',        querySuit);
 describe('remove',       removeSuit);
 describe('replace',      replaceSuit);
 describe('touch',        touchSuit);

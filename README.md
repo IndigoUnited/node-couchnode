@@ -99,11 +99,13 @@ bucket.get(['a', 'b', 'c'], function (err, res, cas, misses) {
 - [`bucket`](#bucket)
 - [`append`](#append)
 - [`counter`](#counter)
+- [`disconnect`](#disconnect)
 - [`get`](#get)
 - [`getAndLock`](#getAndLock)
 - [`getAndTouch`](#getAndTouch)
 - [`getReplica`](#getReplica)
 - [`insert`](#insert)
+- [`manager`](#manager)
 - [`prepend`](#prepend)
 - [`query`](#query)
 - [`remove`](#remove)
@@ -121,12 +123,14 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 <a name="append"></a>
 ### append(keys, fragment, [options,] callback)
 
+Similar to [`upsert`](#upsert), but instead of setting new keys, it appends data to the end of the existing keys. Note that this function only makes sense when the stored data is a string. `append`ing to a JSON document may result in parse errors when the document is later retrieved.
+
 - `keys`: array or string
 - `fragment`: string
 - `options`: object
-    - `cas`
-    - `persist_to`
-    - `replicate_to`
+    - `cas`: The CAS value to check. If the key on the server contains a different CAS value, the operation will fail. Note that if this option is `undefined`, no comparison will be performed. For details on passing the CAS token for each of the keys, check [Per key options](#per-key-options).
+    - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
+    - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
 - `callback(err, cas, misses)`
     - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
@@ -134,20 +138,31 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 <a name="counter"></a>
 ### counter(keys, delta, [options,] callback)
 
+Increments or decrements the keys' numeric value.
+
+Note that JavaScript does not support 64-bit integers (while libcouchbase and the server do). You might receive an inaccurate value if the number is greater than 53-bits (JavaScript's maximum integer precision).
+
 - `keys`: array or string
 - `delta`: non-zero integer
 - `options`: object
-    - `initial`
-    - `expiry`
-    - `persist_to`
-    - `replicate_to`
+    - `initial`: Initial value for the key if it does not exist. Specifying a value of `undefined` will cause the operation to fail if key doesn't exist, otherwise this value must be equal to or greater than `0`.
+    - `expiry` (default `0`): Expiration time of the key. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days).
+    - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
+    - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
 - `callback(err, results, cas, misses)`
     - `results`: object with keys and respective values.
     - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
+<a name="disconnect"></a>
+### disconnect()
+
+Shuts down this connection.
+
 <a name="get"></a>
 ### get(keys, callback)
+
+Retrieve keys.
 
 - `keys`: array or string
 - `callback(err, results, cas, misses)`
@@ -157,6 +172,12 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 
 <a name="getAndLock"></a>
 ### getAndLock(keys, [options,] callback)
+
+Lock the keys on the server and retrieve them. When a key is locked, its CAS changes and subsequent operations (without providing the current CAS) will fail until the lock is no longer held.
+
+This function behaves identically to [`get`](#get) in that it will return the value. It differs in that the key is also locked. This ensures that attempts by other client instances to access this key while the lock is held will fail.
+
+Once locked, a key can be unlocked either by explicitly calling [`unlock`](#unlock) or by performing a storage operation (e.g. [`upsert`](#upsert), [`replace`](#replace), [`append`](#append)) with the current CAS value. Note that any other lock operations on this key will fail while a document is locked.
 
 - `keys`: array or string
 - `options`: object
@@ -169,8 +190,10 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 <a name="getAndTouch"></a>
 ### getAndTouch(keys, expiry, [options,] callback)
 
+Retrieve keys and updates the expiry at the same time.
+
 - `keys`: array or string
-- `expiry`: number
+- `expiry` (default `0`): Expiration time of the key. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days). number
 - `options`: object. No options at this time, just keeping consistent with official module, but might deprecate this.
 - `callback(err, results, cas, misses)`
     - `results`: object with keys and respective values.
@@ -180,9 +203,11 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 <a name="getReplica"></a>
 ### getReplica(keys, [options,] callback)
 
+Get keys from replica servers in your cluster.
+
 - `keys`: array or string
 - `options`: object
-    - `index`
+    - `index`: The index for which replica you wish to retrieve this value from, or if undefined, use the value from the first server that replies.
 - `callback(err, results, cas, misses)`
     - `results`: object with keys and respective values.
     - `cas`: object with keys and respective CAS token.
@@ -191,11 +216,13 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 <a name="insert"></a>
 ### insert(tuples, [options,] callback)
 
+Identical to [`upsert`](#upsert) but will fail if the key already exists.
+
 - `tuples`: tuple (object with keys and respective values)
 - `options`: object
-    - `expiry`
-    - `persist_to`
-    - `replicate_to`
+    - `expiry` (default `0`): Expiration time of the key. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days).
+    - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
+    - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
 - `callback(err, cas, existing)`
     - `cas`: object with keys and respective CAS token.
     - `existing`: array of keys that already existed, and thus failed to be added.
@@ -203,23 +230,27 @@ There is a `.bucket` property on the `couchnode` bucket, which will refer to the
 <a name="manager"></a>
 ### manager()
 
-Returns an instance of a BuckerManager for performing management operations against a bucket.
+Returns an instance of a `BuckerManager` for performing management operations against a bucket.
 
 <a name="prepend"></a>
 ### prepend(keys, fragment, [options,] callback)
 
+Like [`append`](#append), but prepends data to the existing value.
+
 - `keys`: array or string
 - `fragment`: string
 - `options`: object
-    - `cas`
-    - `persist_to`
-    - `replicate_to`
+    - `cas`: The CAS value to check. If the key on the server contains a different CAS value, the operation will fail. Note that if this option is `undefined`, no comparison will be performed. For details on passing the CAS token for each of the keys, check [Per key options](#per-key-options).
+    - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
+    - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
 - `callback(err, cas, misses)`
     - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
 <a name="query"></a>
 ### query(query, params, callback)
+
+Executes a previously prepared query object. This could be a `ViewQuery` or a `N1qlQuery`.
 
 - `query`: `ViewQuery` or `N1qlQuery`
 - `params`: Object or Array, list or map to do replacements on a N1QL query.
@@ -228,11 +259,13 @@ Returns an instance of a BuckerManager for performing management operations agai
 <a name="remove"></a>
 ### remove(keys, [options,] callback)
 
+Delete keys on the server.
+
 - `keys`: array or string
 - `options`: object
-    - `cas`
-    - `persist_to`
-    - `replicate_to`
+    - `cas`: The CAS value to check. If the key on the server contains a different CAS value, the operation will fail. Note that if this option is `undefined`, no comparison will be performed. For details on passing the CAS token for each of the keys, check [Per key options](#per-key-options).
+    - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
+    - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
 - `callback(err, cas, misses)`
     - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that didn't exist.
@@ -240,12 +273,14 @@ Returns an instance of a BuckerManager for performing management operations agai
 <a name="replace"></a>
 ### replace(tuples, [options,] callback)
 
+Identical to [`upsert`](#upsert), but will only succeed if the key exists already (i.e. the inverse of [`insert`](#insert)).
+
 - `tuples`: tuple (object with keys and respective values)
 - `options`: object
-    - `cas`
-    - `expiry`
-    - `persist_to`
-    - `replicate_to`
+    - `cas`: The CAS value to check. If the key on the server contains a different CAS value, the operation will fail. Note that if this option is `undefined`, no comparison will be performed. For details on passing the CAS token for each of the keys, check [Per key options](#per-key-options).
+    - `expiry` (default `0`): Expiration time of the key. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days).
+    - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
+    - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
 - `callback(err, cas, misses)`
     - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
@@ -253,11 +288,13 @@ Returns an instance of a BuckerManager for performing management operations agai
 <a name="touch"></a>
 ### touch(keys, expiry, [options,] callback)
 
+Update the keys' expiration time.
+
 - `keys`: array or string
-- `expiry`: integer
+- `expiry` (default `0`): Expiration time of the key. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days). integer
 - `options`: object
-    - `persist_to`
-    - `replicate_to`
+    - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
+    - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
 - `callback(err, cas, misses)`
     - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that didn't exist.
@@ -265,8 +302,10 @@ Returns an instance of a BuckerManager for performing management operations agai
 <a name="unlock"></a>
 ### unlock(keys, cas, callback)
 
+Unlock previously locked keys on the server. See the [`getAndLock`](#getAndLock) method for more details on locking.
+
 - `keys`: array or string
-- `cas`: integer or key indexed object with keys as respective CAS tokens.
+- `cas`: The CAS value to check. If the key on the server contains a different CAS value, the operation will fail. Note that if this option is `undefined`, no comparison will be performed. For details on passing the CAS token for each of the keys, check [Per key options](#per-key-options).
 - `callback(err, results, misses)`
     - `results`: `true` or `false` if the key was unlocked or not respectively.
     - `misses`: array of keys that didn't exist.
@@ -274,12 +313,14 @@ Returns an instance of a BuckerManager for performing management operations agai
 <a name="upsert"></a>
 ### upsert(tuples, [options,] callback)
 
+Stores a key-value to the bucket. If the keys don't exist, they will be created. If they already exist, they will be overwritten.
+
 - `tuples`: tuple (object with keys and respective values)
 - `options`: object
-    - `cas`
-    - `expiry`
-    - `persist_to`
-    - `replicate_to`
+    - `cas`: The CAS value to check. If the key on the server contains a different CAS value, the operation will fail. Note that if this option is `undefined`, no comparison will be performed. For details on passing the CAS token for each of the keys, check [Per key options](#per-key-options).
+    - `expiry` (default `0`): Expiration time of the key. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days).
+    - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
+    - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
 - `callback(err, cas)`
     - `cas`: object with keys and respective CAS token.
 
@@ -352,9 +393,10 @@ tuple(['a', 'b', 'c'], [1, 2, 3]);
 // }
 ```
 
+<a name="per-key-options"></a>
 ### Per key options
 
-Any time you need to provide key specific options, like `case` or `index` (for `getReplica`), you can provide it as a key indexed object. Check the example below:
+Any time you need to provide key specific options, like `cas` or `index` (for `getReplica`), you can provide it as a key indexed object. Check the example below:
 
 ```js
 bucket.upsert({
