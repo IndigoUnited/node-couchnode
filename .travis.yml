@@ -7,9 +7,10 @@ before_install:
   - sudo apt-get update
   - sudo apt-get -y install libcouchbase-dev libcouchbase2-core libcouchbase2-libevent libevent-dev openjdk-7-jdk maven
   - git clone git://github.com/couchbase/CouchbaseMock /tmp/CouchbaseMock
-  - cd /tmp/CouchbaseMock
+  - pushd /tmp/CouchbaseMock
   - mvn package
   - java -jar /tmp/CouchbaseMock/target/CouchbaseMock-*.jar &
+  - popd
 
 node_js:
   - "0.10"
