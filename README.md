@@ -216,7 +216,7 @@ Get keys from replica servers in your cluster.
 <a name="insert"></a>
 ### insert(tuples, [options,] callback)
 
-Identical to [`upsert`](#upsert) but will fail if the key already exists.
+Identical to [`upsert`](#upsert) but will fail if the key already exists. Any key that already exists is returned in the callback in the `existing` parameter.
 
 - `tuples`: tuple (object with keys and respective values)
 - `options`: object
@@ -230,7 +230,7 @@ Identical to [`upsert`](#upsert) but will fail if the key already exists.
 <a name="manager"></a>
 ### manager()
 
-Returns an instance of a `BuckerManager` for performing management operations against a bucket.
+Returns an instance of a `BucketManager` for performing management operations against a bucket.
 
 <a name="prepend"></a>
 ### prepend(keys, fragment, [options,] callback)
