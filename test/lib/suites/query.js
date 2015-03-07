@@ -11,7 +11,7 @@ var keys       = require('../fixtures').keys;
 // ----------------------------------------------------------------------------
 
 module.exports  = function () {
-    it('should be able to perform a ViewQuery', function (done) {
+    it.only('should be able to perform a ViewQuery', function (done) {
         var manager = bucket.manager();
 
         var designDoc = fixtures.designDocumentsToBeRemoved[0];
