@@ -2,7 +2,7 @@
 
 Sane Couchbase bucket interface for handling common operations the right way.
 
-[![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode)
+[![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode) [![Coverage Status](https://coveralls.io/repos/IndigoUnited/node-couchnode/badge.svg)](https://coveralls.io/r/IndigoUnited/node-couchnode)
 
 [![Couchnode - Wrapper for the official Couchbase bucket interface](logo.png)](https://travis-ci.org/IndigoUnited/node-couchnode)
 
@@ -96,32 +96,113 @@ bucket.get(['a', 'b', 'c'], function (err, res, cas, misses) {
 
 ## API
 
-- [`bucket`](#bucket)
-- [`append`](#append)
-- [`counter`](#counter)
-- [`disconnect`](#disconnect)
-- [`get`](#get)
-- [`getAndLock`](#getAndLock)
-- [`getAndTouch`](#getAndTouch)
-- [`getReplica`](#getReplica)
-- [`insert`](#insert)
-- [`manager`](#manager)
-- [`prepend`](#prepend)
-- [`query`](#query)
-- [`remove`](#remove)
-- [`replace`](#replace)
-- [`touch`](#touch)
-- [`unlock`](#unlock)
-- [`upsert`](#upsert)
+- **Miscellaneous**
+    - [`bucket`](#bucket)
+    - [`disconnect`](#disconnect)
+    - [`manager`](#manager)
+    - [`query`](#query)
+    - [`viewQuery`](#viewQuery)
+        - [`Update`](#viewQueryUpdate)
+        - [`Order`](#viewQueryOrder)
+        - [`ErrorMode`](#viewQueryErrorMode)
+- **Key/value operations**
+    - [`append`](#append)
+    - [`counter`](#counter)
+    - [`get`](#get)
+    - [`getAndLock`](#getAndLock)
+    - [`getAndTouch`](#getAndTouch)
+    - [`getReplica`](#getReplica)
+    - [`insert`](#insert)
+    - [`prepend`](#prepend)
+    - [`remove`](#remove)
+    - [`replace`](#replace)
+    - [`touch`](#touch)
+    - [`unlock`](#unlock)
+    - [`upsert`](#upsert)
+- **BucketManager:**
+    - [`flush`](#flush)
+    - [`getDesignDocument`](#getDesignDocument)
+    - [`getDesignDocuments`](#getDesignDocuments)
+    - [`insertDesignDocument`](#insertDesignDocument)
+    - [`removeDesignDocument`](#removeDesignDocument)
+    - [`upsertDesignDocument`](#upsertDesignDocument)
+- **ViewQuery:**
+    - [`custom`](#custom)
+    - [`from`](#from)
+    - [`full_set`](#full_set)
+    - [`group`](#group)
+    - [`group_level`](#group_level)
+    - [`id_range`](#id_range)
+    - [`key`](#key)
+    - [`keys`](#keys)
+    - [`limit`](#limit)
+    - [`on_error`](#on_error)
+    - [`order`](#order)
+    - [`range`](#range)
+    - [`reduce`](#reduce)
+    - [`skip`](#skip)
+    - [`stale`](#stale)
 
+### Miscellaneous
 
 <a name="bucket"></a>
-### bucket
+#### `bucket`
 
 There is a `.bucket` property on the `couchnode` bucket, which will refer to the underlying official `bucket`.
 
+<a name="disconnect"></a>
+#### `disconnect() → Bucket`
+
+Shuts down this connection.
+
+<a name="manager"></a>
+#### `manager() → BucketManager`
+
+Returns an instance of a `BucketManager` for performing management operations against a bucket.
+
+<a name="query"></a>
+#### `query(query, params, callback) → Bucket`
+
+Executes a previously prepared query object. This could be a `ViewQuery` or a `N1qlQuery`.
+
+- `query`: `ViewQuery` or `N1qlQuery`
+- `params`: Object or Array, list or map to do replacements on a N1QL query.
+- `callback(err, res)`
+
+<a name="viewQuery"></a>
+#### `viewQuery(ddoc, name) → ViewQuery`
+
+TODO
+
+<a name="viewQueryUpdate"></a>
+#### `viewQuery.Update`
+
+TODO
+
+- `BEFORE`
+- `NONE` (default)
+- `AFTER`
+
+<a name="viewQueryOrder"></a>
+#### `viewQuery.Order`
+
+TODO
+
+- `ASCENDING` (default)
+- `DESCENDING`
+
+<a name="viewQueryErrorMode"></a>
+#### `viewQuery.ErrorMode`
+
+TODO
+
+- `CONTINUE` (default)
+- `STOP`
+
+### Key/value operations
+
 <a name="append"></a>
-### append(keys, fragment, [options,] callback)
+#### `append(keys, fragment, [options,] callback) → Bucket`
 
 Similar to [`upsert`](#upsert), but instead of setting new keys, it appends data to the end of the existing keys. Note that this function only makes sense when the stored data is a string. `append`ing to a JSON document may result in parse errors when the document is later retrieved.
 
@@ -136,7 +217,7 @@ Similar to [`upsert`](#upsert), but instead of setting new keys, it appends data
     - `misses`: array of keys that don't exist.
 
 <a name="counter"></a>
-### counter(keys, delta, [options,] callback)
+#### `counter(keys, delta, [options,] callback) → Bucket`
 
 Increments or decrements the keys' numeric value.
 
@@ -154,13 +235,8 @@ Note that JavaScript does not support 64-bit integers (while libcouchbase and th
     - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
-<a name="disconnect"></a>
-### disconnect()
-
-Shuts down this connection.
-
 <a name="get"></a>
-### get(keys, callback)
+#### `get(keys, callback) → Bucket`
 
 Retrieve keys.
 
@@ -171,7 +247,7 @@ Retrieve keys.
     - `misses`: array of keys that don't exist.
 
 <a name="getAndLock"></a>
-### getAndLock(keys, [options,] callback)
+#### `getAndLock(keys, [options,] callback) → Bucket`
 
 Lock the keys on the server and retrieve them. When a key is locked, its CAS changes and subsequent operations (without providing the current CAS) will fail until the lock is no longer held.
 
@@ -188,7 +264,7 @@ Once locked, a key can be unlocked either by explicitly calling [`unlock`](#unlo
     - `misses`: array of keys that don't exist.
 
 <a name="getAndTouch"></a>
-### getAndTouch(keys, expiry, [options,] callback)
+#### `getAndTouch(keys, expiry, [options,] callback) → Bucket`
 
 Retrieve keys and updates the expiry at the same time.
 
@@ -201,7 +277,7 @@ Retrieve keys and updates the expiry at the same time.
     - `misses`: array of keys that don't exist.
 
 <a name="getReplica"></a>
-### getReplica(keys, [options,] callback)
+#### `getReplica(keys, [options,] callback) → Bucket`
 
 Get keys from replica servers in your cluster.
 
@@ -214,7 +290,7 @@ Get keys from replica servers in your cluster.
     - `misses`: array of keys that don't exist.
 
 <a name="insert"></a>
-### insert(tuples, [options,] callback)
+#### `insert(tuples, [options,] callback) → Bucket`
 
 Identical to [`upsert`](#upsert) but will fail if the key already exists. Any key that already exists is returned in the callback in the `existing` parameter.
 
@@ -227,13 +303,8 @@ Identical to [`upsert`](#upsert) but will fail if the key already exists. Any ke
     - `cas`: object with keys and respective CAS token.
     - `existing`: array of keys that already existed, and thus failed to be added.
 
-<a name="manager"></a>
-### manager()
-
-Returns an instance of a `BucketManager` for performing management operations against a bucket.
-
 <a name="prepend"></a>
-### prepend(keys, fragment, [options,] callback)
+#### `prepend(keys, fragment, [options,] callback) → Bucket`
 
 Like [`append`](#append), but prepends data to the existing value.
 
@@ -247,17 +318,8 @@ Like [`append`](#append), but prepends data to the existing value.
     - `cas`: object with keys and respective CAS token.
     - `misses`: array of keys that don't exist.
 
-<a name="query"></a>
-### query(query, params, callback)
-
-Executes a previously prepared query object. This could be a `ViewQuery` or a `N1qlQuery`.
-
-- `query`: `ViewQuery` or `N1qlQuery`
-- `params`: Object or Array, list or map to do replacements on a N1QL query.
-- `callback(err, res)`
-
 <a name="remove"></a>
-### remove(keys, [options,] callback)
+#### `remove(keys, [options,] callback) → Bucket`
 
 Delete keys on the server.
 
@@ -271,7 +333,7 @@ Delete keys on the server.
     - `misses`: array of keys that didn't exist.
 
 <a name="replace"></a>
-### replace(tuples, [options,] callback)
+#### `replace(tuples, [options,] callback) → Bucket`
 
 Identical to [`upsert`](#upsert), but will only succeed if the key exists already (i.e. the inverse of [`insert`](#insert)).
 
@@ -286,7 +348,7 @@ Identical to [`upsert`](#upsert), but will only succeed if the key exists alread
     - `misses`: array of keys that don't exist.
 
 <a name="touch"></a>
-### touch(keys, expiry, [options,] callback)
+#### `touch(keys, expiry, [options,] callback) → Bucket`
 
 Update the keys' expiration time.
 
@@ -300,7 +362,7 @@ Update the keys' expiration time.
     - `misses`: array of keys that didn't exist.
 
 <a name="unlock"></a>
-### unlock(keys, cas, callback)
+#### `unlock(keys, cas, callback) → Bucket`
 
 Unlock previously locked keys on the server. See the [`getAndLock`](#getAndLock) method for more details on locking.
 
@@ -311,7 +373,7 @@ Unlock previously locked keys on the server. See the [`getAndLock`](#getAndLock)
     - `misses`: array of keys that didn't exist.
 
 <a name="upsert"></a>
-### upsert(tuples, [options,] callback)
+#### `upsert(tuples, [options,] callback) → Bucket`
 
 Stores a key-value to the bucket. If the keys don't exist, they will be created. If they already exist, they will be overwritten.
 
@@ -323,6 +385,119 @@ Stores a key-value to the bucket. If the keys don't exist, they will be created.
     - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
 - `callback(err, cas)`
     - `cas`: object with keys and respective CAS token.
+
+### BucketManager
+
+TODO
+
+<a name="flush"></a>
+#### `flush(callback) → BucketManager`
+
+TODO
+
+<a name="getDesignDocument"></a>
+#### `getDesignDocument(name, callback) → BucketManager`
+
+TODO
+
+<a name="getDesignDocuments"></a>
+#### `getDesignDocuments(callback) → BucketManager`
+
+TODO
+
+<a name="insertDesignDocument"></a>
+#### `insertDesignDocument(name, data, callback) → BucketManager`
+
+TODO
+
+<a name="removeDesignDocument"></a>
+#### `removeDesignDocument(name, callback) → BucketManager`
+
+TODO
+
+<a name="upsertDesignDocument"></a>
+#### `upsertDesignDocument(name, data, callback) → BucketManager`
+
+TODO
+
+### ViewQuery
+
+TODO
+
+<a name="custom"></a>
+#### `custom(opts) → ViewQuery`
+
+TODO
+
+<a name="from"></a>
+#### `from(ddoc, name) → ViewQuery`
+
+TODO
+
+<a name="full_set"></a>
+#### `full_set(full_set) → ViewQuery`
+
+TODO
+
+<a name="group"></a>
+#### `group(group) → ViewQuery`
+
+TODO
+
+<a name="group_level"></a>
+#### `group_level(group_level) → ViewQuery`
+
+TODO
+
+<a name="id_range"></a>
+#### `id_range(start, end) → ViewQuery`
+
+TODO
+
+<a name="key"></a>
+#### `key(key) → ViewQuery`
+
+TODO
+
+<a name="keys"></a>
+#### `keys(keys) → ViewQuery`
+
+TODO
+
+<a name="limit"></a>
+#### `limit(limit) → ViewQuery`
+
+TODO
+
+<a name="on_error"></a>
+#### `on_error(mode) → ViewQuery`
+
+TODO
+
+<a name="order"></a>
+#### `order(order) → ViewQuery`
+
+TODO
+
+<a name="range"></a>
+#### `range(start, end, inclusive_end) → ViewQuery`
+
+TODO
+
+<a name="reduce"></a>
+#### `reduce(reduce) → ViewQuery`
+
+TODO
+
+<a name="skip"></a>
+#### `skip(skip) → ViewQuery`
+
+TODO
+
+<a name="stale"></a>
+#### `stale(stale) → ViewQuery`
+
+TODO
 
 ### Error handling
 
