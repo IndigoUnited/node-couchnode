@@ -40,7 +40,7 @@ module.exports  = function () {
                 },
                 by_location: {
                     map: function (doc, meta) {
-                        if (doc.country, doc.state, doc.city) {
+                        if (doc.country && doc.state && doc.city) {
                             emit([doc.country, doc.state, doc.city], 1);
                         } else if (doc.country, doc.state) {
                             emit([doc.country, doc.state], 1);
@@ -54,6 +54,7 @@ module.exports  = function () {
         }, function (err) {
             throwError(err);
 
+            // wait for the view to stabilize
             setTimeout(function () {
                 var query = bucket
                     .viewQuery(designDoc, 'brewery_beers')
