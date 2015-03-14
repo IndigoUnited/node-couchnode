@@ -420,7 +420,7 @@ Retrieves a specific design document from the bucket.
 
 - `name`: The name of the design document.
 - `callback(err, doc)`
-    - `doc`: The design document. Check [insertDesignDocument](#insertDesignDocument) for an example design document.
+    - `doc`: The design document. Check [`insertDesignDocument`](#bucketManager_insertDesignDocument) for an example design document.
 
 ---
 
@@ -430,7 +430,7 @@ Retrieves a specific design document from the bucket.
 Retrieves a list of all design documents registered to a bucket.
 
 - `callback(err, docs)`
-    - `docs`: An object with all design documents. Check [insertDesignDocument](#insertDesignDocument) for an example design document.
+    - `docs`: An object with all design documents. Check [`insertDesignDocument`](#bucketManager_insertDesignDocument) for an example design document.
 
 ---
 
@@ -499,7 +499,7 @@ Unregisters a design document from this bucket.
 Registers a design document to this bucket, overwriting any existing design document that was previously registered.
 
 - `name`: The name of the design document.
-- `doc`: The design document. Check [insertDesignDocument](#insertDesignDocument) for an example design document.
+- `doc`: The design document. Check [`insertDesignDocument`](#bucketManager_insertDesignDocument) for an example design document.
 - `callback(err)`
 
 ---
