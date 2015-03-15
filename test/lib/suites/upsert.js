@@ -108,7 +108,7 @@ module.exports  = function () {
         bucket.get('non-existing-key-1', function (err, res, cas) {
             throwError(err);
 
-            bucket.upsert({ 'non-existing-key-1': 111 }, cas, function (err, cas, misses) {
+            bucket.upsert({ 'non-existing-key-1': 111 }, { cas: cas }, function (err, cas, misses) {
                 throwError(err);
 
                 expect(cas['non-existing-key-1']).to.be.ok();
