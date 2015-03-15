@@ -65,9 +65,8 @@ module.exports  = function () {
 
                 bucket.query(query, function (err, results, meta) {
                     throwError(err);
-console.log(results, meta);
-                    expect(results.length).to.be(10);
 
+                    expect(results.length).to.be(10);
                     expect(meta.total_rows).to.be(132);
 
                     done();

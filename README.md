@@ -98,7 +98,7 @@ var query = bucket
     .viewQuery('my_design_doc', 'brewery_beers')
     .range(['a'],['m'], true) // only keys from 'a' to 'm'
     .reduce(false) // do not reduce
-    .stale(bucket.viewQuery.Update.BEFORE) // guarantee that view is not stale
+    .stale(bucket.viewQuery.Update.BEFORE); // guarantee that view is not stale
 
 bucket.query(query, function (err, res, meta) {
     if (err) {
