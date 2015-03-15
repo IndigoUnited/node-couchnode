@@ -642,7 +642,7 @@ Specify ordering for the results.
 <a name="viewQuery_range"></a>
 #### `range(start, end, inclusive_end) → ViewQuery`
 
-Specify range of document ids to retrieve from the index. Only one is required, but you can limit both. Unlike [id_range](#viewQuery_id_range), which limits based on the original document id, `range` limits based on the view key.
+Specify range of keys to retrieve from the index. Only one is required, but you can limit both. Unlike [id_range](#viewQuery_id_range), which limits based on the original document id, `range` limits based on the view key.
 
 - `start`: String, return records starting with the specified document ID.
 - `end`: String, stop returning records when the specified document ID is reached.
