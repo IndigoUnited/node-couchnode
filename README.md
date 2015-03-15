@@ -513,7 +513,7 @@ Unregisters a design document from this bucket.
 ---
 
 <a name="bucketManager_upsertDesignDocument"></a>
-#### `upsertDesignDocument(name, data, callback) → BucketManager`
+#### `upsertDesignDocument(name, doc, callback) → BucketManager`
 
 Registers a design document to this bucket, overwriting any existing design document that was previously registered.
 
@@ -579,7 +579,7 @@ Specify the group level to be used. Note: Do not use `group_level` with `group` 
 <a name="viewQuery_id_range"></a>
 #### `id_range(start, end) → ViewQuery`
 
-Specify range of document ids to retrieve from the index. Only one is required, but you can limit both. Unlike [range](#range), which limits based on the view key, `id_range` limits based on the original document id.
+Specify range of document ids to retrieve from the index. Only one is required, but you can limit both. Unlike [range](#viewQuery_range), which limits based on the view key, `id_range` limits based on the original document id.
 
 - `start`: String, return records starting with the specified document ID.
 - `end`: String, stop returning records when the specified document ID is reached.
@@ -642,7 +642,7 @@ Specify ordering for the results.
 <a name="viewQuery_range"></a>
 #### `range(start, end, inclusive_end) → ViewQuery`
 
-Specify range of document ids to retrieve from the index. Only one is required, but you can limit both. Unlike [id_range](#id_range), which limits based on the original document id, `range` limits based on the view key.
+Specify range of document ids to retrieve from the index. Only one is required, but you can limit both. Unlike [id_range](#viewQuery_id_range), which limits based on the original document id, `range` limits based on the view key.
 
 - `start`: String, return records starting with the specified document ID.
 - `end`: String, stop returning records when the specified document ID is reached.
@@ -828,3 +828,4 @@ Error codes are available under `bucket.errors.<code>`. List of codes below.
     - Support multiple operations.
     - Improve "callback" mechanism after doing certain operations. It seems to callback before the views are ready.
 - Consider improving ViewQuery, as it is using "new concepts" that are different from the specified in the Couchbase documentation. I see no need for this, as the original concepts are pretty clear. Example: `descending` is called `order`, and you need to use *pseudo-constants*, even though you could just used `descending: true/false`.
+- Document how to check if design document exists. Maybe even improve error code.
