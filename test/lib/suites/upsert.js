@@ -104,7 +104,7 @@ module.exports  = function () {
         });
     });
 
-    it.only('should support providing CAS object provided after getting non-existing key', function (done) {
+    it('should support providing CAS object provided after getting non-existing key', function (done) {
         bucket.get('non-existing-key-1', function (err, res, cas) {
             throwError(err);
 
