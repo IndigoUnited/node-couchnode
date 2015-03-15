@@ -8,7 +8,7 @@ Sane Couchbase bucket interface for handling common operations the right way.
 
 This module is as a wrapper for the official bucket interface. Documentation of
 the official module can be found
-[here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.3/Bucket.html).
+[here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.6/Bucket.html).
 
 Considering this module wraps the official Couchbase interface, it is compatible with the same server versions as the official module.
 
@@ -92,7 +92,24 @@ bucket.get(['a', 'b', 'c'], function (err, res, cas, misses) {
         console.log(res.c, cas.c);
     }
 });
+
+// let's perform a view query
+var query = bucket
+    .viewQuery('my_design_doc', 'brewery_beers')
+    .range(['a'],['m'], true) // only keys from 'a' to 'm'
+    .reduce(false) // do not reduce
+    .stale(bucket.viewQuery.Update.BEFORE) // guarantee that view is not stale
+
+bucket.query(query, function (err, res, meta) {
+    if (err) {
+        return console.error('View query failed:', err);
+    }
+    
+    console.log('Found', meta.total_rows, 'results:', res);
+});
 ```
+
+Should be noted that even though the main motivator behind this module is an improved API, there is always an effort to maintain the existing API, to reduce friction and learning curve. With this said, the API is typically only changed if the original one becomes too cumbersome to handle on a daily basis.
 
 ## API
 
@@ -166,13 +183,15 @@ Returns an instance of a `BucketManager` for performing management operations ag
 ---
 
 <a name="bucket_query"></a>
-#### `query(query, params, callback) → Bucket`
+#### `query(query, [params,] callback) → Bucket`
 
 Executes a previously prepared query object. This could be a `ViewQuery` or a `N1qlQuery`.
 
 - `query`: `ViewQuery` or `N1qlQuery`
 - `params`: Object or Array, list or map to do replacements on a N1QL query.
-- `callback(err, res)`
+- `callback(err, results, meta)`
+    - `results`: An array of results, each result will be an object containing `id`, a `key` array and a `value`.
+    - `meta`: An object containing `total_rows`.
 
 ---
 
