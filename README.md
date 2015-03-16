@@ -774,7 +774,7 @@ You do not have to specify options to all keys, `couchnode` will only apply the 
 
 ### Errors
 
-Error codes are available under `bucket.errors.<code>`. List of codes below.
+Error codes are available under `bucket.errors.<code>` and `couchnode.errors.<code>`. List of codes below.
 
 - `success`                : 0,
 - `authContinue`           : 1,
