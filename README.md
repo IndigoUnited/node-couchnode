@@ -78,6 +78,9 @@ var cluster   = new couchbase.Cluster('127.0.0.1:8091');
 var couchnode = require('couchnode');
 var bucket    = couchnode.wrap(cluster.openBucket('default'));
 
+// if the instance passed to `wrap` is already a couchnode bucket, then it
+// returns the same instance
+
 bucket.get(['a', 'b', 'c'], function (err, res, cas, misses) {
     if (err) {
         // err.errors will be an object of keys and respective errors
