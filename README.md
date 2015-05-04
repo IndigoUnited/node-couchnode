@@ -1,29 +1,20 @@
 # Couchnode
 
-Sane Couchbase bucket interface for handling common operations the right way.
+Sane Couchbase client for handling common operations the right way.
 
 [![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode) [![Coverage Status](https://coveralls.io/repos/IndigoUnited/node-couchnode/badge.svg)](https://coveralls.io/r/IndigoUnited/node-couchnode)
 
-[![Couchnode - Wrapper for the official Couchbase bucket interface](logo.png)](https://travis-ci.org/IndigoUnited/node-couchnode)
+[![Couchnode - Wrapper for the official Couchbase client](logo.png)](https://travis-ci.org/IndigoUnited/node-couchnode)
 
-This module is as a wrapper for the official bucket interface. Documentation of
+This module is as a wrapper for the official client. Documentation of
 the official module can be found
 [here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.6/Bucket.html).
 
-Considering this module wraps the official Couchbase interface, it is compatible with the same server versions as the official module.
-
-### Coverage summary
-
-```
-Statements   : 91.98% ( 195/212 )
-Branches     : 75.2% ( 94/125 )
-Functions    : 92.86% ( 39/42 )
-Lines        : 91.98% ( 195/212 )
-```
+Considering this module wraps the official Couchbase client, it is compatible with the same server versions as the official module.
 
 ## Rant
 
-Couchbase's official bucket interface contains a bunch of questionable design
+Couchbase's official client contains a bunch of questionable design
 options that make common operations very cumbersome to handle. Check below some
 examples:
 

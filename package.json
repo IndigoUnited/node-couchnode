@@ -1,6 +1,6 @@
 {
   "name": "couchnode",
-  "version": "4.1.7",
+  "version": "4.1.8",
   "description": "Sane Couchbase bucket interface for handling common operations the right way.",
   "main": "index.js",
   "scripts": {
@@ -38,6 +38,6 @@
   "devDependencies": {
     "expect.js": "^0.3.1",
     "istanbul": "^0.3.2",
-    "mocha": "^1.21.5"
+    "mocha": "^2.2.4"
   }
 }
