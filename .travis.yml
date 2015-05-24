@@ -17,4 +17,4 @@ before_install:
   - popd
 
 script: "npm run test-travis"
-after_script: "npm install coveralls@^2.11.1 && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+after_script: "npm install coveralls@^2.11.1 && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls; cat ./coverage/lcov.info | ./node_modules/codacy-coverage/bin/codacy-coverage.js"
