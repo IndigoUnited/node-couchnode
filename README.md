@@ -2,7 +2,7 @@
 
 Sane Couchbase client for handling common operations the right way.
 
-[![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode) [![Coverage Status](https://coveralls.io/repos/IndigoUnited/node-couchnode/badge.svg)](https://coveralls.io/r/IndigoUnited/node-couchnode)
+[![Build Status](https://travis-ci.org/IndigoUnited/node-couchnode.svg?branch=master)](https://travis-ci.org/IndigoUnited/node-couchnode) [![Coverage Status](https://coveralls.io/repos/IndigoUnited/node-couchnode/badge.svg)](https://coveralls.io/r/IndigoUnited/node-couchnode) [![Codacy Badge](https://www.codacy.com/project/badge/c3afd76fdaeb49d38df7126b6ae55480)](https://www.codacy.com/app/me_19/node-couchnode)
 
 [![Couchnode - Wrapper for the official Couchbase client](logo.png)](https://travis-ci.org/IndigoUnited/node-couchnode)
 
