@@ -177,7 +177,7 @@ Returns an instance of a `BucketManager` for performing management operations ag
 ---
 
 <a name="bucket_query"></a>
-#### `query(query, [params,] callback) → Bucket`
+#### `query(query, [params,] callback) → ViewQueryResponse`
 
 Executes a previously prepared query object. This could be a `ViewQuery` or a `N1qlQuery`.
 
