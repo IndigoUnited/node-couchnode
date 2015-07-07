@@ -226,7 +226,7 @@ Note that JavaScript does not support 64-bit integers (while libcouchbase and th
 - `keys`: array or string
 - `delta`: non-zero integer
 - `options`: object
-    - `initial`: Initial value for the key if it does not exist. Specifying a value of `undefined` will cause the operation to fail if key doesn't exist, otherwise this value must be equal to or greater than `0`.
+    - `initial`: Initial value for the key if it does not exist (the actual value that will be used, not added to `delta`). Specifying a value of `undefined` will cause the operation to fail if key doesn't exist, otherwise this value must be equal to or greater than `0`. 
     - `expiry` (default `0`): Expiration time of the key. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days).
     - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
     - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
