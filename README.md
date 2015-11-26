@@ -6,7 +6,7 @@ Sane Couchbase client for handling common operations the right way.
 
 [![Couchnode - Wrapper for the official Couchbase client](logo.png)](https://travis-ci.org/IndigoUnited/node-couchnode)
 
-This module is as a wrapper for the official client. Documentation of
+This module is a wrapper for the official client. Documentation of
 the official module can be found
 [here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.6/Bucket.html).
 
