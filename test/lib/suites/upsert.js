@@ -103,4 +103,19 @@ module.exports  = function () {
             });
         });
     });
+
+    it('should support providing CAS object provided after getting non-existing key', function (done) {
+        bucket.get('non-existing-key-1', function (err, res, cas) {
+            throwError(err);
+
+            bucket.upsert({ 'non-existing-key-1': 111 }, { cas: cas }, function (err, cas, misses) {
+                throwError(err);
+
+                expect(cas['non-existing-key-1']).to.be.ok();
+                expect(misses.length).to.be(0);
+
+                return done();
+            });
+        });
+    });
 };

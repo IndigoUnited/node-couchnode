@@ -1,5 +1,9 @@
 language: node_js
 
+node_js:
+  - "0.10"
+  # - "0.12"
+
 before_install:
   - sudo rm -rf /etc/apt/sources.list.d/*
   - wget -O- http://packages.couchbase.com/ubuntu/couchbase.key | sudo apt-key add -
@@ -12,6 +16,7 @@ before_install:
   - java -jar /tmp/CouchbaseMock/target/CouchbaseMock-*.jar &
   - popd
 
-node_js:
-  - "0.10"
-  - "0.12"
+script: "npm run test-travis"
+after_script:
+  - "npm install coveralls@^2.11.1 && cat ./coverage/lcov.info | ./node_modules/.bin/coveralls"
+  - "npm install codacy-coverage@^1.1.2 && cat ./coverage/lcov.info | CODACY_REPO_TOKEN=8d8aa33d498c45e5b74c90ca23ba9cf1 ./node_modules/codacy-coverage/bin/codacy-coverage.js"

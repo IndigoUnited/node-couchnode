@@ -119,6 +119,7 @@ function removeDesignDocuments(done) {
 
     async.each(designDocumentsToBeRemoved, function (name, callback) {
         manager.removeDesignDocument(name, function (err) {
+
             return callback(err && (err.message !== 'missing' && err.message !== 'deleted') ? err : null);
         });
     }, done);
@@ -139,13 +140,6 @@ module.exports.apply = function (done) {
     async.series([
         cleanUpFn,
         upsertKeys
-    ], done);
-};
-
-module.exports.cleanUp = function (done) {
-    async.parallel([
-        removeDesignDocuments,
-        removeKeys
     ], done);
 };
 
