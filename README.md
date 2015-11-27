@@ -109,6 +109,8 @@ Should be noted that even though the main motivator behind this module is an imp
 
 - **[Miscellaneous](#miscellaneous)**
     - [`bucket`](#bucket_bucket)
+    - [`maxReadsPerOp`](#bucket_maxReadsPerOp)
+    - [`maxWritesPerOp`](#bucket_maxWritesPerOp)
     - [`disconnect`](#bucket_disconnect)
     - [`manager`](#bucket_manager)
     - [`query`](#bucket_query)
@@ -161,6 +163,24 @@ Should be noted that even though the main motivator behind this module is an imp
 #### `bucket`
 
 There is a `.bucket` property on the `couchnode` bucket, which will refer to the underlying official `bucket`.
+
+---
+
+<a name="bucket_maxReadsPerOp"></a>
+#### `maxReadsPerOp`
+
+Maximum amount of parallel reads per operation, defaults to `0`, which is no limit. Can be used to smooth out spikes at the expense of slowing each operation. As an example, if you set this to `10000` and try to `get` 50k keys, it will be the equivalent of 5 sequential gets of 10k keys.
+
+**WARNING:** If *must* rely on this feature, it might be symptomatic of an architectural problem like an implementation issue or an under provisioned cluster.
+
+---
+
+<a name="bucket_maxWritesPerOp"></a>
+#### `maxWritesPerOp`
+
+Maximum amount of parallel writes per operation, defaults to `0`, which is no limit. Can be used to smooth out spikes at the expense of slowing each operation. As an example, if you set this to `10000` and try to `upsert` 50k keys, it will be the equivalent of 5 sequential upserts of 10k keys.
+
+**WARNING:** If *must* rely on this feature, it might be symptomatic of an architectural problem like an implementation issue or an under provisioned cluster.
 
 ---
 
