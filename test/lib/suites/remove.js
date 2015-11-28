@@ -124,4 +124,21 @@ module.exports  = function () {
             });
         });
     });
+
+    it('should set .casFailure if it happens', function (done) {
+        bucket.get(['a', 'b'], function (err, res, cas) {
+            throwError(err);
+
+            bucket.remove('a', {
+                cas: {
+                    a: cas.b // provide invalid CAS token
+                }
+            }, function (err) {
+                expect(err.errors.a.code).to.be(bucket.errors.keyAlreadyExists);
+                expect(err.errors.a.casFailure).to.be(true);
+
+                return done();
+            });
+        });
+    });
 };

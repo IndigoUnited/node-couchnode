@@ -97,6 +97,22 @@ module.exports  = function () {
                 done();
             });
         });
+    });
 
+    it('should set .casFailure if it happens', function (done) {
+        bucket.getAndLock(['z', 'b'], function (err, res, cas) {
+            throwError(err);
+
+            bucket.unlock(['z', 'b'], {
+                z: cas.b, // provide invalid CAS token
+                b: cas.b
+            }, function (err) {
+                expect(err.errors.b).to.be(undefined);
+                expect(err.errors.z.code).to.be(bucket.errors.temporaryError);
+                expect(err.errors.z.casFailure).to.be(true);
+
+                bucket.unlock('z', cas, done);
+            });
+        });
     });
 };

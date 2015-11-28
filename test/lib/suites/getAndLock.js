@@ -87,4 +87,44 @@ module.exports  = function () {
             bucket.unlock(['a', 'b', 'c'], cas, done);
         });
     });
+
+    it('should set .casFailure if the key is already locked', function (done) {
+        bucket.getAndLock('a', function (err, res, cas) {
+            throwError(err);
+
+            bucket.getAndLock('a', function (err) {
+                expect(err.errors.a.code).to.be(bucket.errors.temporaryError);
+                expect(err.errors.a.casFailure).to.be(true);
+
+                bucket.unlock('a', cas, done);
+            });
+        });
+    });
+
+    it('should set .casFailure when trying to write a key that is locked', function (done) {
+        bucket.getAndLock('a', function (err, res, cas) {
+            throwError(err);
+
+            bucket.upsert({ a: 'b' }, function (err) {
+                expect(err.errors.a.casFailure).to.be(true);
+
+                bucket.unlock('a', cas, done);
+            });
+        });
+    });
+
+    it('should be able to get() a key that is locked', function (done) {
+        bucket.getAndLock('a', function (err, res, cas) {
+            throwError(err);
+
+            bucket.get('a', function (err, res, getCas) {
+                throwError(err);
+
+                expect(res.a).to.be.ok();
+                expect(getCas.a).to.be.ok();
+
+                bucket.unlock('a', cas, done);
+            });
+        });
+    });
 };

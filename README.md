@@ -273,11 +273,11 @@ Retrieve keys.
 <a name="bucket_getAndLock"></a>
 #### `getAndLock(keys, [options,] callback) → Bucket`
 
-Lock the keys on the server and retrieve them. When a key is locked, its CAS changes and subsequent operations (without providing the current CAS) will fail until the lock is no longer held.
+Lock the keys on the server and retrieve them. When a key is locked, its CAS changes and subsequent write operations without providing the current CAS will fail until the lock is no longer held.
 
-This function behaves identically to [`get`](#get) in that it will return the value. It differs in that the key is also locked. This ensures that attempts by other client instances to access this key while the lock is held will fail.
+This function behaves identically to [`get`](#get) in that it will return the value. It differs in that the key is also locked. This ensures that attempts by other client instances to write this key while the lock is held will fail.
 
-Once locked, a key can be unlocked either by explicitly calling [`unlock`](#unlock) or by performing a storage operation (e.g. [`upsert`](#upsert), [`replace`](#replace), [`append`](#append)) with the current CAS value. Note that any other lock operations on this key will fail while a document is locked.
+Once locked, a key can be unlocked either by explicitly calling [`unlock`](#unlock) or by performing a storage operation (e.g. [`upsert`](#upsert), [`replace`](#replace), [`append`](#append)) with the current CAS value. Note that any other lock operations on this key will fail while a document is locked, and the [`.casFailure`](#casFailure) flag will be set.
 
 - `keys`: array or string
 - `options`: object
@@ -700,6 +700,21 @@ Specifies how this query will affect view indexing, both before and after the qu
 
 Since all operations support *multi operation*, all operations will return an `Error` with `EMULTI` code as first parameter, in case any of the operations fails. This `Error` contains an `.errors` property, which is an object with keys and respective original `Error`.
 
+<a name="casFailure"></a>
+### CAS failures
+
+As a way to make it easier to check if a CAS failure happened in your operation, you can check the `error.casFailure` property. If it is `truthy`, then a CAS failure happened. If it is `falsy`, then there was no CAS failure.
+
+Here's an example usage:
+
+```js
+bucket.upsert({ my_key: 10 }, { cas: /* CAS VALUE */ }, function (err, cas) {
+    if (err && err.errors.my_key && err.errors.my_key.casFailure) {
+        // this was a CAS failure
+    }
+});
+```
+
 ### Key Not Found
 
 All `keyNotFound` scenarios are handled the same way, and there is no `Error` generated. Instead, all operations will provide a `misses` array in the callback, and the `results` object won't contain the missing key.
@@ -837,7 +852,6 @@ Error codes are available under `bucket.errors.<code>` and `couchnode.errors.<co
 ## TODO
 
 - Properly test each of the common error scenarios in each operation type. An insert will fail if key already exists, replace fails if the key doesn't exist, and so on for each operation type.
-- Create a better way of signaling a CAS failure. Consider either adding a new error code or attaching a `.casFailure` property to the `Error`.
 - Consider improving BucketManager:
     - Support multiple operations.
     - Improve "callback" mechanism after doing certain operations. It seems to callback before the views are ready.

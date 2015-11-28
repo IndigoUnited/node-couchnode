@@ -8,45 +8,6 @@ var keys       = require('../fixtures').keys;
 // ----------------------------------------------------------------------------
 
 module.exports  = function () {
-//     it.skip('should upsert 1M keys', function (done) {
-//         this.timeout(0);
-//         var tuples = {};
-//         var keys   = [];
-// // console.log(bucket.bucket.operationTimeout);
-//         for (var i = 0; i < 1000000; i++) {
-//             keys.push('mykey_' + i);
-
-//             tuples['mykey_' + i] = '01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789';
-//         }
-
-
-//         console.time('upsert');
-
-//         bucket.upsert(tuples, function (err, cas) {
-//             if (err) {
-//                 console.error(err.errors[Object.keys(err.errors)[0]]);
-//             }
-//             throwError(err);
-
-//             console.timeEnd('upsert');
-
-
-
-//             console.time('get');
-
-//             bucket.get(keys, function (err, cas) {
-//                 if (err) {
-//                     console.error(err.errors[Object.keys(err.errors)[0]]);
-//                 }
-//                 throwError(err);
-
-//                 console.timeEnd('get');
-
-//                 return done();
-//             });
-//         });
-//     });
-
     it('should get a single key', function (done) {
         bucket.get('a', function (err, res, cas, misses) {
             throwError(err);
