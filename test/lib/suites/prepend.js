@@ -157,8 +157,12 @@ module.exports  = function () {
                     a: cas.b // provide invalid CAS token
                 }
             }, function (err) {
-                expect(err.errors.a.code).to.be(bucket.errors.keyAlreadyExists);
-                expect(err.errors.a.casFailure).to.be(true);
+                if (!process.env.COUCHBASE_MOCK) {
+                    expect(err.errors.a.code).to.be(bucket.errors.keyAlreadyExists);
+                    expect(err.errors.a.casFailure).to.be(true);
+                } else {
+                    console.warn('Testing against Couchbase Mock, which does not check CAS on append operations, skipping verification.');
+                }
 
                 return done();
             });

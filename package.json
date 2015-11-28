@@ -1,11 +1,11 @@
 {
   "name": "couchnode",
-  "version": "4.3.0",
+  "version": "4.3.1",
   "description": "Sane Couchbase bucket interface for handling common operations the right way.",
   "main": "index.js",
   "scripts": {
     "test": "mocha -R spec --bail test/index.js",
-    "test-travis": "istanbul cover node_modules/.bin/_mocha --report lcovonly",
+    "test-travis": "COUCHBASE_MOCK=1 istanbul cover node_modules/.bin/_mocha --report lcovonly",
     "coverage": "istanbul cover node_modules/.bin/_mocha -- --ui bdd -R spec -t 5000",
     "open-coverage": "open coverage/lcov-report/index.html",
     "clear-bucket": "couchbase-cli bucket-flush -u Administrator -p password -c 127.0.0.1:8091 -b default --force"
@@ -32,14 +32,14 @@
   "homepage": "https://github.com/IndigoUnited/node-couchnode",
   "dependencies": {
     "async": "^0.9.0",
-    "couchbase": "~2.0.12",
-    "coveralls": "^2.11.2",
-    "mocha-lcov-reporter": "0.0.2"
+    "couchbase": "~2.0.12"
   },
   "devDependencies": {
     "expect.js": "^0.3.1",
     "istanbul": "^0.3.2",
     "mocha": "^2.2.4",
-    "codacy-coverage": "^1.1.2"
+    "codacy-coverage": "^1.1.2",
+    "coveralls": "^2.11.2",
+    "mocha-lcov-reporter": "0.0.2"
   }
 }
