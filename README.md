@@ -8,7 +8,7 @@ Sane Couchbase client for handling common operations the right way.
 
 This module is a wrapper for the official client. Documentation of
 the official module can be found
-[here](http://docs.couchbase.com/sdk-api/couchbase-node-client-2.0.6/Bucket.html).
+[here](http://developer.couchbase.com/documentation/server/4.0/sdks/node-2.0/download-links.html).
 
 Considering this module wraps the official Couchbase client, it is compatible with the same server versions as the official module.
 
