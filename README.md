@@ -857,3 +857,25 @@ Error codes are available under `bucket.errors.<code>` and `couchnode.errors.<co
     - Improve "callback" mechanism after doing certain operations. It seems to callback before the views are ready.
 - Consider improving ViewQuery, as it is using "new concepts" that are different from the specified in the Couchbase documentation. I see no need for this, as the original concepts are pretty clear. Example: `descending` is called `order`, and you need to use *pseudo-constants*, even though you could just used `descending: true/false`.
 - Document how to check if design document exists. Maybe even improve error code.
+
+## Contributing
+
+If you'd like to contribute to `couchnode`, first of all *yay!*. Now, you should fork this repository, and once you `npm install`, you will need to get yourself a Couchbase server with a `default` bucket, or you'll need to install the [`CouchbaseMock`](https://github.com/couchbase/CouchbaseMock) server (instructions on how to install below).
+
+```bash
+# CouchbaseMock is a Java implementation of the Couchbase server, and is
+# intended to be used as a mock server for testing.
+
+# make sure you have the following installed:
+# libcouchbase-dev libcouchbase2-core libcouchbase2-libevent
+# libevent-dev openjdk-7-jdk maven
+
+# build server from source
+git clone git://github.com/couchbase/CouchbaseMock /tmp/CouchbaseMock
+pushd /tmp/CouchbaseMock
+mvn package
+popd
+
+# run the server in the background
+java -jar /tmp/CouchbaseMock/target/CouchbaseMock-*.jar &
+```

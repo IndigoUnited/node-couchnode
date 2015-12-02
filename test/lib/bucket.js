@@ -8,11 +8,6 @@ var bucket    = cluster.openBucket('default');
 //
 // clearing bucket: couchbase-cli bucket-flush -u Administrator -p password -c 127.0.0.1:8091 -b default --force
 
-// mock couchbase:
-// var couchbase = require('couchbase').Mock;
-// var cluster   = new couchbase.Cluster();
-// var bucket    = cluster.openBucket('default');
-
 module.exports = bucket;
 
 /*
