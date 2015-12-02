@@ -879,3 +879,7 @@ popd
 # run the server in the background
 java -jar /tmp/CouchbaseMock/target/CouchbaseMock-*.jar &
 ```
+
+Now you're ready to run the tests (`npm test`). Make sure they pass before submitting a pull request.
+
+Thanks!
