@@ -19,12 +19,12 @@ module.exports  = function () {
         var initialMaxReadsPerOp  = bucket.maxReadsPerOp;
         var initialMaxWritesPerOp = bucket.maxWritesPerOp;
 
-        bucket.maxReadsPerOp  = 25000;
-        bucket.maxWritesPerOp = 5000;
+        bucket.maxReadsPerOp  = 2500;
+        bucket.maxWritesPerOp = 500;
 
         var tuples = {};
 
-        for (var i = 1; i <= 200000; i++) {
+        for (var i = 1; i <= 20000; i++) {
             tuples['key' + i] = 'foo';
         }
 
