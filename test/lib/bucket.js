@@ -1,8 +1,8 @@
 'use strict';
 // real couchbase:
 var couchbase = require('couchbase');
-var cluster   = new couchbase.Cluster('127.0.0.1:8091'); // TODO: maybe put in some config?
-var bucket    = cluster.openBucket('default');
+var cluster   = new couchbase.Cluster(process.env.COUCHBASE_HOST || '127.0.0.1:8091');
+var bucket    = cluster.openBucket(process.env.COUCHBASE_BUCKET || 'default');
 
 // default username and password for couchbase administration are: Administrator:password
 //
