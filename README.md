@@ -98,7 +98,7 @@ bucket.query(query, function (err, res, meta) {
     if (err) {
         return console.error('View query failed:', err);
     }
-    
+
     console.log('Found', meta.total_rows, 'results:', res);
 });
 ```
@@ -246,7 +246,7 @@ Note that JavaScript does not support 64-bit integers (while libcouchbase and th
 - `keys`: array or string
 - `delta`: non-zero integer
 - `options`: object
-    - `initial`: Initial value for the key if it does not exist (the actual value that will be used, not added to `delta`). Specifying a value of `undefined` will cause the operation to fail if key doesn't exist, otherwise this value must be equal to or greater than `0`. 
+    - `initial`: Initial value for the key if it does not exist (the actual value that will be used, not added to `delta`). Specifying a value of `undefined` will cause the operation to fail if key doesn't exist, otherwise this value must be equal to or greater than `0`.
     - `expiry` (default `0`): Expiration time of the key. If it's equal to zero, the item will never expire. You can also use Unix timestamp or a number of seconds starting from current time, but in the latter case the number of seconds may not exceed 2592000 (30 days).
     - `persist_to` (default `0`): Ensure this operation is persisted to this many nodes.
     - `replicate_to` (default `0`): Ensure this operation is replicated to this many nodes.
@@ -860,7 +860,7 @@ Error codes are available under `bucket.errors.<code>` and `couchnode.errors.<co
 
 ## Contributing
 
-If you'd like to contribute to `couchnode`, first of all *yay!*. Now, you should fork this repository, and once you `npm install`, you will need to get yourself a Couchbase server with a `default` bucket, or you'll need to install the [`CouchbaseMock`](https://github.com/couchbase/CouchbaseMock) server (instructions on how to install below).
+If you'd like to contribute to `couchnode`, first of all *yay!*. Now, you should fork this repository, and once you `npm install`, you will need to get yourself a Couchbase server or you'll need to install the [`CouchbaseMock`](https://github.com/couchbase/CouchbaseMock) server (instructions on how to install below).
 
 ```bash
 # CouchbaseMock is a Java implementation of the Couchbase server, and is
@@ -880,6 +880,9 @@ popd
 java -jar /tmp/CouchbaseMock/target/CouchbaseMock-*.jar &
 ```
 
-Now you're ready to run the tests (`npm test`). Make sure they pass before submitting a pull request.
+By default, the tests will run against the bucket `default` on `127.0.0.1`. To override this, use the ENV vars: `COUCHBASE_HOST` and `COUCHBASE_BUCKET`. Example: `COUCHBASE_HOST=couchbase.local COUCHBASE_BUCKET=test npm test`.
+
+Now you're ready to run the tests (`npm test`).
+Make sure they pass before submitting a pull request.
 
 Thanks!
