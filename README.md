@@ -882,6 +882,10 @@ java -jar /tmp/CouchbaseMock/target/CouchbaseMock-*.jar &
 
 By default, the tests will run against the bucket `default` on `127.0.0.1`. To override this, use the ENV vars: `COUCHBASE_HOST` and `COUCHBASE_BUCKET`. Example: `COUCHBASE_HOST=couchbase.local COUCHBASE_BUCKET=test npm test`.
 
+**WARNING:** Note that CouchbaseMock does not properly implement `append` and `prepend`, so if you're running the test suite against it, you should set the `COUCHBASE_MOCK` env var to `1` when running the tests (`COUCHBASE_MOCK=1 npm t`), which will skip the verifications and issue warnings for specific things that can't be tested.
+
+
+
 Now you're ready to run the tests (`npm test`).
 Make sure they pass before submitting a pull request.
 
