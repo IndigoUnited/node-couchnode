@@ -4,9 +4,9 @@
   "description": "Sane Couchbase bucket interface for handling common operations the right way.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -R spec --bail test/index.js",
+    "test": "mocha --bail test/index.js",
     "test-travis": "COUCHBASE_MOCK=1 istanbul cover node_modules/.bin/_mocha --report lcovonly",
-    "coverage": "istanbul cover node_modules/.bin/_mocha -- --ui bdd -R spec -t 5000",
+    "coverage": "istanbul cover node_modules/.bin/_mocha -- --ui bdd -t 5000",
     "open-coverage": "open coverage/lcov-report/index.html",
     "clear-bucket": "couchbase-cli bucket-flush -u Administrator -p password -c 127.0.0.1:8091 -b default --force"
   },
