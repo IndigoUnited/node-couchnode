@@ -1,7 +1,7 @@
 {
   "name": "couchnode",
-  "version": "4.3.3",
-  "description": "Sane Couchbase bucket interface for handling common operations the right way.",
+  "version": "4.3.4",
+  "description": "Sane official Couchbase client wrapper for handling multi key and other common operations the right way.",
   "main": "index.js",
   "scripts": {
     "test": "mocha --bail test/index.js",
