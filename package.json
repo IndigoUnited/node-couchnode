@@ -1,6 +1,6 @@
 {
   "name": "couchnode",
-  "version": "4.3.2",
+  "version": "4.3.3",
   "description": "Sane Couchbase bucket interface for handling common operations the right way.",
   "main": "index.js",
   "scripts": {
@@ -16,13 +16,22 @@
   },
   "keywords": [
     "couchbase",
+    "client",
     "bucket",
     "couchnode",
     "couch",
+    "multi",
     "key",
     "value",
     "keyvalue",
-    "kvs"
+    "kvs",
+    "query",
+    "libcouchbase",
+    "memcached",
+    "nosql",
+    "json",
+    "document",
+    "library"
   ],
   "author": "Marco Oliveira <marcooliveira@me.com>",
   "license": "MIT",
