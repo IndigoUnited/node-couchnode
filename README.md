@@ -14,20 +14,20 @@ Considering this module wraps the official Couchbase client, it is compatible wi
 
 ## Rant
 
-Couchbase's official client contains a bunch of questionable design
+Couchbase's official client contains a few of questionable design
 options that make common operations very cumbersome to handle. Check below some
 examples:
 
 - A common operation is to try to get a key and expect it to potentially not
-be there. Unfortunately, the official client handles this as a failure, and
-returns an `Error` in the callback, meaning you have to constantly to check if
-the error code is not `couchbase.errors.keyNotFound`. JavaScript has an
-`undefined` type, which could be leveraged for these scenarios.
+be there (key miss). Unfortunately, the official client handles this as a
+failure, and returns an `Error` in the callback, meaning you have to constantly
+to check if the error code is not `couchbase.errors.keyNotFound`. JavaScript has
+an `undefined` type, which could be leveraged for these scenarios.
 
 - In a `getMulti` scenario, the `keyNotFound` issue is even more troublesome,
-in which instead of an `Error`, they return a `Number` stating the amount
-of errors that occurred, and you have to iterate through the results looking for
-the `.error` property in each result and comparing it to
+in which instead of an `Error`, a `Number` stating the amount
+of errors that occurred is returned, and you have to iterate through the results
+looking for the `.error` property in each result and comparing it to
 `couchbase.errors.keyNotFound`.
 
 - When `remove`ing a key, the operation will callback with an `Error` if the key
@@ -51,7 +51,8 @@ code `18`, which isn't even properly documented, but with some exploring you
 discover that it is `LIBCOUCHBASE_NOT_SUPPORTED`, even though there is already
 a `keyNotFound` error code.
 
-- When `insert`ing keys, if they already exist, you have to constantly look into the `error.code` and look for `keyAlreadyExists`, which again is cumbersome.
+- When `insert`ing keys, if they already exist, you have to constantly look into
+the `error.code` and look for `keyAlreadyExists`, which again is cumbersome.
 
 ## Installing
 
