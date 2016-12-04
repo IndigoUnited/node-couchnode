@@ -40,16 +40,16 @@
   },
   "homepage": "https://github.com/IndigoUnited/node-couchnode",
   "dependencies": {
-    "async": "^0.9.0"
+    "async": "^2.1.4"
   },
   "devDependencies": {
-    "codacy-coverage": "^1.1.2",
+    "codacy-coverage": "^2.0.0",
     "couchbase": "^2.1.2",
     "coveralls": "^2.11.2",
     "expect.js": "^0.3.1",
-    "istanbul": "^0.3.2",
-    "mocha": "^2.2.4",
-    "mocha-lcov-reporter": "0.0.2"
+    "istanbul": "^0.4.5",
+    "mocha": "^3.2.0",
+    "mocha-lcov-reporter": "1.2.0"
   },
   "peerDependencies": {
     "couchbase": "^2.1.2"
